@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-03-27</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f0efe9; font-family: 'Noto Sans TC', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px 0 120px; }
+
+/* ── Slide shared ── */
+.slide {
+  width: 540px; height: 675px;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid #e0ddd5;
+}
+.slide * { letter-spacing: 0.01em; }
+
+/* watermark */
+.watermark {
+  position: absolute; bottom: 12px; right: 16px;
+  font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(0,0,0,0.12);
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════
+   COVER
+   ══════════════════════════════════ */
+.cover { display: flex; flex-direction: column; justify-content: space-between; padding: 0; }
+
+/* top bar */
+.cover-top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px 32px 0;
+}
+.badge {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  background: #111; color: #fff; padding: 5px 12px; border-radius: 2px;
+}
+.cover-date {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; color: #888;
+}
+
+/* center */
+.cover-center { padding: 0 32px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cover-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 52px;
+  line-height: 1.15; color: #111; margin-bottom: 4px;
+}
+.cover-handle {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px;
+  color: #aaa; margin-bottom: 20px; letter-spacing: 0.02em;
+}
+.cover-subtitle {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 400; font-size: 17px;
+  color: #555; margin-bottom: 22px; line-height: 1.5;
+}
+.cover-preview {
+  border-top: 1px solid #e8e6df; padding-top: 18px;
+}
+.cover-preview-item {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 400; font-size: 14px;
+  color: #777; line-height: 1.8; padding-left: 4px;
+}
+.cover-preview-item::before { content: '→ '; color: #bbb; }
+
+/* bottom */
+.cover-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 32px 28px; border-top: 1px solid #e8e6df; margin: 0 32px;
+  padding-top: 16px;
+}
+.cover-count {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 15px; color: #333;
+}
+.cover-swipe {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px;
+  color: #aaa; letter-spacing: 0.08em;
+}
+
+/* ══════════════════════════════════
+   NEWS PAGE
+   ══════════════════════════════════ */
+.news-page { display: flex; flex-direction: column; padding: 32px 36px 20px; }
+
+.news-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.news-number {
+  font-family: 'Inter', sans-serif; font-weight: 800; font-size: 42px; color: #111;
+  line-height: 1;
+}
+.news-tag {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 12px;
+  padding: 4px 12px; border-radius: 2px; color: #fff; letter-spacing: 0.04em;
+}
+.tag-red { background: #d63031; }
+.tag-green { background: #00b894; }
+.tag-blue { background: #0984e3; }
+.tag-purple { background: #6c5ce7; }
+.tag-orange { background: #e17055; }
+.tag-gray { background: #636e72; }
+
+.news-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 34px;
+  line-height: 1.25; color: #111; margin-bottom: 20px;
+}
+
+.news-divider {
+  width: 40px; height: 3px; background: #111; margin-bottom: 18px;
+}
+
+.news-body {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.85; color: #333; margin-bottom: 22px; flex: 1;
+}
+
+.news-relevance {
+  background: #f8f7f3; border-left: 3px solid #111;
+  padding: 14px 18px; margin-bottom: 18px;
+}
+.news-relevance-label {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 12px;
+  color: #111; margin-bottom: 6px; letter-spacing: 0.06em;
+}
+.news-relevance-text {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 400; font-size: 14px;
+  color: #555; line-height: 1.75;
+}
+
+.news-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid #e8e6df; padding-top: 12px;
+}
+.news-source {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; color: #aaa;
+}
+.news-pagenum {
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; color: #bbb;
+}
+
+/* ══════════════════════════════════
+   SUMMARY PAGE
+   ══════════════════════════════════ */
+.summary-page { display: flex; flex-direction: column; justify-content: center; padding: 36px 36px 28px; }
+
+.summary-label {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  background: #111; color: #fff; padding: 5px 12px; border-radius: 2px;
+  display: inline-block; margin-bottom: 24px; align-self: flex-start;
+}
+.summary-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 30px;
+  color: #111; margin-bottom: 28px; line-height: 1.3;
+}
+.summary-item {
+  display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start;
+}
+.summary-num {
+  font-family: 'Inter', sans-serif; font-weight: 800; font-size: 22px; color: #111;
+  min-width: 28px;
+}
+.summary-text {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 400; font-size: 15px;
+  color: #444; line-height: 1.7;
+}
+
+.summary-cta {
+  margin-top: 32px; padding-top: 24px; border-top: 2px solid #111; text-align: center;
+}
+.summary-cta-text {
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 16px;
+  color: #111; margin-bottom: 10px; line-height: 1.6;
+}
+.summary-cta-handle {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px;
+  color: #888; letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════
+   DOWNLOAD BAR
+   ══════════════════════════════════ */
+.download-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #111; padding: 14px 20px;
+  display: flex; justify-content: center; gap: 12px;
+  z-index: 999;
+}
+.download-bar button {
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+  padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer;
+  background: #fff; color: #111; transition: background 0.2s;
+}
+.download-bar button:hover { background: #e0e0e0; }
+.download-bar button.primary { background: #0984e3; color: #fff; }
+.download-bar button.primary:hover { background: #0873cc; }
+
+/* ── Save Gallery (long press) ── */
+.save-gallery {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85); z-index: 1000; overflow-y: auto;
+  padding: 20px; justify-content: center; align-items: flex-start;
+  flex-wrap: wrap; gap: 12px;
+}
+.save-gallery.active { display: flex; }
+.save-gallery img { width: 260px; border-radius: 4px; }
+.save-gallery .close-btn {
+  position: fixed; top: 16px; right: 16px;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 18px;
+  color: #fff; background: rgba(255,255,255,0.15); border: none;
+  width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ COVER ═══════ -->
+<div class="slide cover" id="slide-cover">
+  <div class="cover-top">
+    <span class="badge">Daily Briefing</span>
+    <span class="cover-date">2026.03.26 THU</span>
+  </div>
+  <div class="cover-center">
+    <div class="cover-title">AI 日報</div>
+    <div class="cover-handle">@ai_everyday69</div>
+    <div class="cover-subtitle">昨天 AI 圈發生了什麼事？</div>
+    <div class="cover-preview">
+      <div class="cover-preview-item">Meta 裁 700 人，核 1350 億美元衝 AI</div>
+      <div class="cover-preview-item">Google Gemini 開放匯入 ChatGPT 對話</div>
+      <div class="cover-preview-item">GitHub 要用你的程式碼訓練 AI 模型</div>
+    </div>
+  </div>
+  <div class="cover-bottom">
+    <span class="cover-count">5 則精選</span>
+    <span class="cover-swipe">← 滑動閱讀 →</span>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ NEWS 1 ═══════ -->
+<div class="slide news-page" id="slide-1">
+  <div class="news-header">
+    <span class="news-number">01</span>
+    <span class="news-tag tag-red">裁員潮</span>
+  </div>
+  <div class="news-title">Meta裁員轉投AI</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    Meta 在 3 月 25 日裁掉約 700 名員工，涵蓋 Reality Labs、Facebook、招募和業務部門。這是 Meta 今年第二波裁員，1 月已砍超過 1000 人。省下的錢將投入 AI 基礎建設，今年資本支出上看 1350 億美元。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">大公司為了衝 AI 不斷琍人，你的工作技能也需要跟著升級。花時間學一點 AI 工具，讓自己變得更難被取代。</div>
+  </div>
+  <div class="news-footer">
+    <span class="news-source">Source: CNBC</span>
+    <span class="news-pagenum">1 / 5</span>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ NEWS 2 ═══════ -->
+<div class="slide news-page" id="slide-2">
+  <div class="news-header">
+    <span class="news-number">02</span>
+    <span class="news-tag tag-blue">產品發布</span>
+  </div>
+  <div class="news-title">Gemini開放匯入對話</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    Google 推出 Gemini 聊天紀錄匯入功能，用戶可以把 ChatGPT 和 Claude 的對話打包上傳。每天最多上傳 5 個 ZIP 檔，每個上限 5GB。目前全球大部分地區已開放使用。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">換 AI 助理不用再從零開始，你過去的對話和訖憶都能帶著走。想試試 Gemini 的話，現在搬家變超方便。</div>
+  </div>
+  <div class="news-footer">
+    <span class="news-source">Source: Bloomberg</span>
+    <span class="news-pagenum">2 / 5</span>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ NEWS 3 ═══════ -->
+<div class="slide news-page" id="slide-3">
+  <div class="news-header">
+    <span class="news-number">03</span>
+    <span class="news-tag tag-purple">政策法規</span>
+  </div>
+  <div class="news-title">GitHub改訓練政策</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    GitHub 宣布 4 月 24 日起，免費版和 Pro 版 Copilot 用戶的互動資料將預設用於 AI 模型訓練。資料包括輸入、輸出、程式碼片段和操作紀錄。企業版和學生帳號不受影響。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">如果你有用 GitHub Copilot，你寫的程式碼可能被拿去訓練 AI。趕快去設定頁面確認要不要關掉這個選項。</div>
+  </div>
+  <div class="news-footer">
+    <span class="news-source">Source: The Register, GitHub Blog</span>
+    <span class="news-pagenum">3 / 5</span>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ NEWS 4 ═══════ -->
+<div class="slide news-page" id="slide-4">
+  <div class="news-header">
+    <span class="news-number">04</span>
+    <span class="news-tag tag-orange">市場融資</span>
+  </div>
+  <div class="news-title">台灣AI出口首超中國</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    2025 年美國從台灣進口貨物達 2014 億美元，年增 73%，主要靠 AI 硬體帶動。去年 12 月台灣首次超越中國，成為美國最大單一進口來源。台灣目前掌握全球約 90% AI 伺服器組裝量。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">台灣在全球 AI 供應鏈的角色越來越重要，相關產業的工作機會也在增加。對科技業有興足的人可以多關注這個方向。</div>
+  </div>
+  <div class="news-footer">
+    <span class="news-source">Source: Container Magazine</span>
+    <span class="news-pagenum">4 / 5</span>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ NEWS 5 ═══════ -->
+<div class="slide news-page" id="slide-5">
+  <div class="news-header">
+    <span class="news-number">05</span>
+    <span class="news-tag tag-purple">政策法規</span>
+  </div>
+  <div class="news-title">Trump組科技顧問團</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    川普總統準備任命 Zuckerberg、Oracle 創辦人 Ellison 和 NVIDIA 執行長黃仁勳加入新成立的「科技顧問委員會」。三位都是市值破兆企業的掌門人，這個委員會將直接影響美國 AI 政策走向。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">這些科技大老闆直接影響 AI 的發展規則，未來 AI 怎麼用、怎麼管都跟他們有關。關心 AI 發展的人值得追蹤後續。</div>
+  </div>
+  <div class="news-footer">
+    <span class="news-source">Source: Tech Startups</span>
+    <span class="news-pagenum">5 / 5</span>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ SUMMARY ═══════ -->
+<div class="slide summary-page" id="slide-summary">
+  <span class="summary-label">Recap</span>
+  <div class="summary-title">昨日三大重點</div>
+  <div class="summary-item">
+    <span class="summary-num">1</span>
+    <span class="summary-text">Meta 裁員 700 人，全力押注 AI 基礎建設，資本支出上看 1350 億美元</span>
+  </div>
+  <div class="summary-item">
+    <span class="summary-num">2</span>
+    <span class="summary-text">Google Gemini 開放匯入 ChatGPT 對話紀錄，AI 助理大戰發熱化</span>
+  </div>
+  <div class="summary-item">
+    <span class="summary-num">3</span>
+    <span class="summary-text">GitHub 預設用你的程式碼訓練 AI，4/24 前記得去關掉</span>
+  </div>
+  <div class="summary-cta">
+    <div class="summary-cta-text">追蹤我，每天一分鐘掌握 AI 大事</div>
+    <div class="summary-cta-handle">@ai_everyday69 · 每日更新</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════ DOWNLOAD BAR ═══════ -->
+<div class="download-bar">
+  <button class="primary" onclick="downloadAll()">⬇ 下載全部</button>
+  <button onclick="openSaveGallery()">🖼 長按儲存</button>
+</div>
+
+<!-- ═══════ SAVE GALLERY ═══════ -->
+<div class="save-gallery" id="saveGallery">
+  <button class="close-btn" onclick="closeSaveGallery()">✕</button>
+</div>
+
+<script>
+const slideIds = ['slide-cover','slide-1','slide-2','slide-3','slide-4','slide-5','slide-summary'];
+
+async function renderSlide(id) {
+  const el = document.getElementById(id);
+  const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+  return canvas;
+}
+
+async function downloadAll() {
+  for (let i = 0; i < slideIds.length; i++) {
+    const canvas = await renderSlide(slideIds[i]);
+    const link = document.createElement('a');
+    link.download = slideIds[i] + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    await new Promise(r => setTimeout(r, 500));
+  }
+}
+
+async function openSaveGallery() {
+  const gallery = document.getElementById('saveGallery');
+  gallery.innerHTML = '<button class="close-btn" onclick="closeSaveGallery()">✕</button>';
+  gallery.classList.add('active');
+  for (const id of slideIds) {
+    const canvas = await renderSlide(id);
+    const img = document.createElement('img');
+    img.src = canvas.toDataURL('image/png');
+    gallery.appendChild(img);
+  }
+}
+
+function closeSaveGallery() {
+  document.getElementById('saveGallery').classList.remove('active');
+}
+</script>
+</body>
+</html>
