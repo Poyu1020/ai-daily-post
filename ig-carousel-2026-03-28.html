@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-03-28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#f0ede6; font-family:'Noto Sans TC',sans-serif; display:flex; flex-direction:column; align-items:center; padding:20px 0 60px; }
+
+/* ── download bar ── */
+.download-bar { position:fixed; top:0; left:0; right:0; background:#111; color:#fff; display:flex; align-items:center; justify-content:center; gap:12px; padding:10px 16px; z-index:999; font-family:Inter,sans-serif; font-size:13px; }
+.download-bar button { background:#fff; color:#111; border:none; padding:6px 16px; border-radius:6px; font-weight:600; cursor:pointer; font-size:13px; font-family:Inter,sans-serif; }
+.download-bar button:hover { background:#e0e0e0; }
+.download-bar .status { color:#aaa; }
+
+/* ── slide wrapper ── */
+.slide-wrapper { margin:24px 0; }
+.slide { width:540px; height:675px; background:#fff; position:relative; overflow:hidden; border:1px solid #e0ddd6; }
+
+/* ── watermark ── */
+.watermark { position:absolute; bottom:12px; right:16px; font-family:Inter,sans-serif; font-size:10px; color:rgba(0,0,0,0.12); letter-spacing:0.5px; z-index:10; }
+
+/* ── COVER ── */
+.cover { display:flex; flex-direction:column; justify-content:space-between; padding:0; }
+.cover-top { padding:40px 44px 0; }
+.badge { display:inline-block; font-family:Inter,sans-serif; font-weight:700; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; border:1.5px solid #111; padding:4px 12px; border-radius:2px; }
+.cover-date { font-family:Inter,sans-serif; font-weight:500; font-size:13px; color:#888; margin-top:10px; letter-spacing:0.5px; }
+.cover-center { padding:0 44px; flex:1; display:flex; flex-direction:column; justify-content:center; }
+.cover-title { font-family:'Noto Serif TC',serif; font-weight:900; font-size:52px; line-height:1.2; letter-spacing:2px; color:#111; }
+.cover-handle { font-family:Inter,sans-serif; font-size:13px; color:#aaa; margin-top:4px; letter-spacing:0.5px; }
+.cover-subtitle { font-family:'Noto Sans TC',sans-serif; font-weight:400; font-size:16px; color:#555; margin-top:20px; line-height:1.6; }
+.cover-preview { margin-top:18px; padding-left:0; list-style:none; }
+.cover-preview li { font-family:'Noto Sans TC',sans-serif; font-size:14px; color:#333; line-height:2; position:relative; padding-left:18px; }
+.cover-preview li::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:6px; height:6px; background:#111; border-radius:50%; }
+.cover-bottom { padding:0 44px 36px; display:flex; justify-content:space-between; align-items:flex-end; }
+.cover-count { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:15px; color:#111; }
+.cover-swipe { font-family:Inter,sans-serif; font-size:12px; color:#bbb; letter-spacing:1px; }
+
+/* ── NEWS PAGE ── */
+.news-page { display:flex; flex-direction:column; padding:40px 44px 36px; }
+.news-header { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+.news-num { font-family:Inter,sans-serif; font-weight:900; font-size:36px; color:#111; line-height:1; }
+.news-tag { display:inline-block; font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:12px; padding:3px 12px; border-radius:3px; color:#fff; }
+.tag-red { background:#d32f2f; }
+.tag-green { background:#2e7d32; }
+.tag-blue { background:#1565c0; }
+.tag-purple { background:#7b1fa2; }
+.tag-orange { background:#e65100; }
+.tag-gray { background:#616161; }
+
+.news-title { font-family:'Noto Serif TC',serif; font-weight:900; font-size:30px; line-height:1.35; color:#111; margin-bottom:20px; letter-spacing:1px; }
+.news-body { font-family:'Noto Sans TC',sans-serif; font-weight:400; font-size:15px; line-height:1.85; color:#333; flex:1; }
+.news-relevance { background:#f7f5f0; border-left:3px solid #111; padding:14px 18px; margin-top:18px; border-radius:0 6px 6px 0; }
+.news-relevance-label { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:12px; color:#111; margin-bottom:6px; letter-spacing:1px; }
+.news-relevance-text { font-family:'Noto Sans TC',sans-serif; font-weight:400; font-size:14px; line-height:1.75; color:#444; }
+.news-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:auto; padding-top:16px; }
+.news-source { font-family:Inter,sans-serif; font-size:11px; color:#aaa; }
+.news-pagenum { font-family:Inter,sans-serif; font-weight:700; font-size:12px; color:#ccc; }
+
+/* ── SUMMARY PAGE ── */
+.summary-page { display:flex; flex-direction:column; justify-content:center; align-items:center; padding:48px 44px; text-align:center; }
+.summary-label { font-family:Inter,sans-serif; font-weight:700; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; border:1.5px solid #111; padding:4px 14px; border-radius:2px; margin-bottom:32px; }
+.summary-list { list-style:none; padding:0; margin-bottom:40px; width:100%; }
+.summary-list li { font-family:'Noto Sans TC',sans-serif; font-weight:500; font-size:17px; color:#222; line-height:1.6; padding:12px 0; border-bottom:1px solid #eee; text-align:left; }
+.summary-list li:last-child { border-bottom:none; }
+.summary-list .li-num { font-family:Inter,sans-serif; font-weight:800; font-size:18px; color:#111; margin-right:8px; }
+.summary-cta { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:18px; color:#111; line-height:1.7; margin-bottom:24px; }
+.summary-handle { font-family:Inter,sans-serif; font-size:14px; color:#999; letter-spacing:0.5px; }
+.summary-update { font-family:'Noto Sans TC',sans-serif; font-size:13px; color:#bbb; margin-top:4px; }
+
+/* ── Save Gallery ── */
+.save-gallery { margin-top:60px; text-align:center; }
+.save-gallery h2 { font-family:'Noto Sans TC',sans-serif; font-size:16px; color:#666; margin-bottom:16px; }
+.save-gallery img { display:block; margin:8px auto; width:540px; border:1px solid #ddd; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<!-- Download Bar -->
+<div class="download-bar">
+  <span>AI 日報 2026-03-28</span>
+  <button onclick="downloadAll()">⬇ 下載全部圖片</button>
+  <button onclick="generateGallery()">🖼 產生長按儲存圖</button>
+  <span class="status" id="dlStatus"></span>
+</div>
+
+<!-- ====== COVER ====== -->
+<div class="slide-wrapper">
+<div class="slide cover" id="slide-0">
+  <div class="cover-top">
+    <div class="badge">Daily Briefing</div>
+    <div class="cover-date">FRI, 28 MAR 2026</div>
+  </div>
+  <div class="cover-center">
+    <div class="cover-title">AI 日報</div>
+    <div class="cover-handle">@ai_everyday69</div>
+    <div class="cover-subtitle">昨天 AI 圈發生了什麼事？</div>
+    <ul class="cover-preview">
+      <li>軟鈀借 400 億美元加碼 OpenAI</li>
+      <li>Anthropic 秘密模型意外曝光</li>
+      <li>台灣 AI 出口首度超越中國</li>
+    </ul>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-count">5 則精選</div>
+    <div class="cover-swipe">← 滑動閱讀 →</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== NEWS 1 ====== -->
+<div class="slide-wrapper">
+<div class="slide news-page" id="slide-1">
+  <div class="news-header">
+    <div class="news-num">01</div>
+    <div class="news-tag tag-orange">市場融資</div>
+  </div>
+  <div class="news-title">軟鈀借 400 億押注 OpenAI</div>
+  <div class="news-body">
+    軟銀向摩根大通、高盛等六家銀行借入 400 億美元無擔保過橋貸款，用於追加投資 OpenAI 300 億美元。加上先前投入，軟鈀對 OpenAI 總押注已超過 600 億美元。這筆 12 個月到期的貸款，被市場解讀為 OpenAI 今年下半年 IPO 的強烈訊號。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">軟鈀瘋狂砸錢代表 AI 大戰進入「燒錢」階段，未來 AI 工具的價格和品質都會快速變化。現在可以多試幾個 AI 工具，找到最適合自己的。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Bloomberg / TechCrunch</div>
+    <div class="news-pagenum">1 / 5</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== NEWS 2 ====== -->
+<div class="slide-wrapper">
+<div class="slide news-page" id="slide-2">
+  <div class="news-header">
+    <div class="news-num">02</div>
+    <div class="news-tag tag-green">技術突破</div>
+  </div>
+  <div class="news-title">Anthropic 秘密模型遭外洩</div>
+  <div class="news-body">
+    Anthropic 內部正在測試代號「Mythos」的新模型，被公司稱為「能力的階梯式跳躍」。這項資訊因資料快取設定錯誤而意外曝光。Fortune 報導指出，該模型可能帶來前所未有的網路安全風險，Anthropic 已啟動內部調查。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">更強大的 AI 模型即將問世，你能用的工具會越來越聰明。同時也要注意資安問題，別隨便把敏感資料丟給 AI。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Fortune</div>
+    <div class="news-pagenum">2 / 5</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== NEWS 3 ====== -->
+<div class="slide-wrapper">
+<div class="slide news-page" id="slide-3">
+  <div class="news-header">
+    <div class="news-num">03</div>
+    <div class="news-tag tag-blue">產品發布</div>
+  </div>
+  <div class="news-title">OpenAI 三合一超級 App</div>
+  <div class="news-body">
+    OpenAI 宣布將 ChatGPT、程式助手 Codex、瀏覽器 Atlas 整合為桌面版「超級 App」。內部數據顯示 Anthropic 已拿下 73% 企業首次 AI 採購，促使 OpenAI 應用長發出「紅色警報」。新 App 僅針對桌面用戶，手機版不受影響。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">以後用 OpenAI 不用在好幾個 App 之間切來切去了。AI 公司搶客戶搶得越兇，我們能用到的免費功能就越多。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">WSJ / MacRumors</div>
+    <div class="news-pagenum">3 / 5</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== NEWS 4 ====== -->
+<div class="slide-wrapper">
+<div class="slide news-page" id="slide-4">
+  <div class="news-header">
+    <div class="news-num">04</div>
+    <div class="news-tag tag-orange">市場融資</div>
+  </div>
+  <div class="news-title">台灣 AI 出口首超中國</div>
+  <div class="news-body">
+    台灣去年 12 月饖度超越中國，成為美國最大單一進口來源國，是 1992 年以來首見。台灣掌握全球約 90% AI 伺服器組裝及 80% 伺服器出貨量，去年出口總額達 6,400 億美元、年增 34.8%。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">台灣在全球 AI 供應鏈的地位越來越重要，相關工作機會也在增加。如果你想轉職，AI 硬體供應鏈是值得關注的方向。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Container Magazine / DIGITIMES</div>
+    <div class="news-pagenum">4 / 5</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== NEWS 5 ====== -->
+<div class="slide-wrapper">
+<div class="slide news-page" id="slide-5">
+  <div class="news-header">
+    <div class="news-num">05</div>
+    <div class="news-tag tag-red">裁員潮</div>
+  </div>
+  <div class="news-title">科技業裁員破五萬人</div>
+  <div class="news-body">
+    2026 年至今全球科技業已裁員超過 5.1 萬人，其中逾 9,200 人直接因 AI 取代而失業。Oracle 裁 2.5 萬人最多，Meta 和 Amazon 各裁 1.6 萬人。調查顯示 55% 美國主管預期今年還會繼續裁員。
+  </div>
+  <div class="news-relevance">
+    <div class="news-relevance-label">跟你有什麼關係</div>
+    <div class="news-relevance-text">AI 正在改變職場，光會基本操作已經不夠了。現在就開始學怎麼用 AI 工具提升效率，讓自己成為「會用 AI 的人」。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">IBTimes / TechNode Global</div>
+    <div class="news-pagenum">5 / 5</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== SUMMARY ====== -->
+<div class="slide-wrapper">
+<div class="slide summary-page" id="slide-6">
+  <div class="summary-label">Yesterday's Top 3</div>
+  <ul class="summary-list">
+    <li><span class="li-num">1.</span>軟銀借 400 億美元，暗示 OpenAI 年底前 IPO</li>
+    <li><span class="li-num">2.</span>Anthropic「Mythos」模型曝光，AI 能力再躍升</li>
+    <li><span class="li-num">3.</span>台灣 AI 出口首超中國，站穪全球供應鏈核心</li>
+  </ul>
+  <div class="summary-cta">追蹤我，每天一分鐘<br>掌握 AI 大事</div>
+  <div class="summary-handle">@ai_everyday69</div>
+  <div class="summary-update">每日更新</div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+</div>
+
+<!-- ====== Save Gallery ====== -->
+<div class="save-gallery" id="saveGallery" style="display:none;">
+  <h2>📱 長按圖片即可儲存</h2>
+  <div id="galleryImages"></div>
+</div>
+
+<script>
+const totalSlides = 7;
+
+async function renderSlide(i) {
+  const el = document.getElementById('slide-' + i);
+  const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: 540, height: 675 });
+  return canvas;
+}
+
+async function downloadAll() {
+  const status = document.getElementById('dlStatus');
+  for (let i = 0; i < totalSlides; i++) {
+    status.textContent = `下載中 ${i+1}/${totalSlides}...`;
+    const canvas = await renderSlide(i);
+    const link = document.createElement('a');
+    link.download = `ai-daily-2026-03-28-${String(i).padStart(2,'0')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    await new Promise(r => setTimeout(r, 500));
+  }
+  status.textContent = '✅ 全部下載完成';
+}
+
+async function generateGallery() {
+  const status = document.getElementById('dlStatus');
+  const gallery = document.getElementById('saveGallery');
+  const container = document.getElementById('galleryImages');
+  container.innerHTML = '';
+  gallery.style.display = 'block';
+  for (let i = 0; i < totalSlides; i++) {
+    status.textContent = `產生中 ${i+1}/${totalSlides}...`;
+    const canvas = await renderSlide(i);
+    const img = document.createElement('img');
+    img.src = canvas.toDataURL('image/png');
+    img.style.width = '540px';
+    container.appendChild(img);
+  }
+  status.textContent = '✅ 長按圖片即可儲存';
+  gallery.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
