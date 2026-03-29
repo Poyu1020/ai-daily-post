@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 - 2026-03-29</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f0ede6; font-family: 'Noto Sans TC', sans-serif; padding: 20px 0; }
+
+/* Download bar */
+.download-bar {
+  display: flex; justify-content: center; gap: 10px; padding: 16px;
+  background: #fff; border-bottom: 2px solid #222; position: sticky; top: 0; z-index: 100;
+  flex-wrap: wrap;
+}
+.download-bar button {
+  padding: 8px 16px; border: 2px solid #222; background: #fff; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+  transition: all 0.2s;
+}
+.download-bar button:hover { background: #222; color: #fff; }
+.download-bar .download-all { background: #222; color: #fff; }
+.download-bar .download-all:hover { background: #444; }
+
+/* Card container */
+.cards-container {
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+  padding: 24px 0;
+}
+
+/* Each card - display at 540x675, actual 1080x1350 */
+.card {
+  width: 540px; height: 675px; background: #fff; position: relative;
+  overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+.card-inner {
+  width: 1080px; height: 1350px; position: absolute; top: 0; left: 0;
+  transform: scale(0.5); transform-origin: top left;
+  padding: 72px 80px; display: flex; flex-direction: column;
+}
+
+/* Watermark */
+.watermark {
+  position: absolute; bottom: 30px; right: 40px;
+  font-family: 'Inter', sans-serif; font-size: 22px; color: rgba(0,0,0,0.08);
+  font-weight: 600; letter-spacing: 1px;
+}
