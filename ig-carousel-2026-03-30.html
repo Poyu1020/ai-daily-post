@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-03-30</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a1a;
+    font-family: 'Noto Sans TC', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  /* ── 下載控制列 ── */
+  .control-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 600px;
+  }
+  .control-bar button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .control-bar button:hover { background: #1d4ed8; }
+  .control-bar button.secondary {
+    background: #374151;
+  }
+  .control-bar button.secondary:hover { background: #1f2937; }
+
+  /* ── 輪播容器 ── */
+  .carousel-wrapper {
+    position: relative;
+    width: 540px;
+  }
+  .carousel {
+    width: 540px;
+    overflow: hidden;
+  }
+  .slides-track {
+    display: flex;
+    transition: transform 0.35s ease;
+  }
+
+  /* ── 每張 slide ── */
+  .slide {
+    width: 540px;
+    height: 675px;
+    background: #fff;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── 浮水印 ── */
+  .slide::after {
+    content: '@ai_everyday69';
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.18);
+    letter-spacing: 0.03em;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ══════════════════════
+     封面 (Slide 0)
+  ══════════════════════ */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+  }
+  .cover-top {
+    padding: 22px 28px 14px;
+    border-bottom: 1.5px solid #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cover-top .badge {
+    background: #111;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .cover-top .date-str {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #555;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .cover-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 28px 10px;
+    border-bottom: 1.5px solid #111;
+    gap: 8px;
+  }
+  .cover-main-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: #111;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .cover-handle {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .cover-subtitle {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+  .cover-divider {
+    width: 40px;
+    height: 2px;
+    background: #111;
+    margin: 4px 0;
+  }
+  .cover-previews {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 4px;
+  }
+  .cover-preview-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11.5px;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.4;
+    border-left: 2px solid #111;
+    padding-left: 8px;
+  }
+  .cover-preview-item .num {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #888;
+    flex-shrink: 0;
+  }
+
+  .cover-bottom {
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cover-count {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: 0.06em;
+  }
+  .cover-swipe {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 0.04em;
+  }
+
+  /* ══════════════════════
+     新聞頁 (Slide 1–4)
+  ══════════════════════ */
+  .news-slide {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 30px 22px;
+    gap: 0;
+    border: 1px solid #e5e7eb;
+  }
+
+  .news-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .news-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .news-tag {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 2px;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+  .tag-green  { background: #22c55e; }
+  .tag-blue   { background: #3b82f6; }
+  .tag-orange { background: #f97316; }
+  .tag-red    { background: #ef4444; }
+  .tag-purple { background: #a855f7; }
+  .tag-gray   { background: #6b7280; }
+
+  .news-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #111;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    margin-bottom: 14px;
+    border-bottom: 1.5px solid #111;
+    padding-bottom: 14px;
+  }
+
+  .news-body {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.8;
+    flex: 1;
+    margin-bottom: 14px;
+  }
+
+  .news-relation-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-left: 3px solid #111;
+    border-radius: 3px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .news-relation-label {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .news-relation-text {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.7;
+  }
+
+  .news-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+  }
+  .news-source {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #888;
+    font-weight: 400;
+  }
+  .news-page {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #888;
+    font-weight: 500;
+  }
+
+  /* ══════════════════════
+     總結頁 (Last Slide)
+  ══════════════════════ */
+  .summary-slide {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 30px 24px;
+    border: 1px solid #e5e7eb;
+  }
+  .summary-top {
+    border-bottom: 1.5px solid #111;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  .summary-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .summary-main-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #111;
+    letter-spacing: 0.03em;
+  }
+  .summary-points {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .summary-point {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .summary-point-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #e5e7eb;
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 28px;
+  }
+  .summary-point-content {}
+  .summary-point-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .summary-point-desc {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11.5px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .summary-cta {
+    background: #111;
+    color: #fff;
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-top: 18px;
+    text-align: center;
+  }
+  .cta-text {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .cta-handle {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── 導覽按鈕 ── */
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: background 0.2s;
+  }
+  .nav-btn:hover { background: rgba(0,0,0,0.78); }
+  .nav-prev { left: -18px; }
+  .nav-next { right: -18px; }
+
+  /* ── 點點 ── */
+  .dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #555;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .dot.active { background: #fff; }
+
+  /* ── Gallery (長按儲存) ── */
+  .gallery {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .gallery img {
+    width: 540px;
+    border-radius: 4px;
+    display: block;
+  }
+  .gallery-hint {
+    color: #888;
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 控制列 ── -->
+<div class="control-bar">
+  <button onclick="downloadCurrent()">⬇ 下載目前這張</button>
+  <button onclick="downloadAll()">⬇ 下載全部 (逐張)</button>
+  <button class="secondary" onclick="toggleGallery()">🖼 顯示圖庫（長按儲存）</button>
+</div>
+
+<!-- ── 輪播 ── -->
+<div class="carousel-wrapper">
+  <button class="nav-btn nav-prev" onclick="prevSlide()">&#8249;</button>
+  <div class="carousel">
+    <div class="slides-track" id="track">
+
+      <!-- ════ 封面 ════ -->
+      <div class="slide cover" id="slide-0">
+        <div class="cover-top">
+          <span class="badge">Daily Briefing</span>
+          <span class="date-str">2026 · 03 · 29</span>
+        </div>
+        <div class="cover-center">
+          <div class="cover-main-title">AI 日報</div>
+          <div class="cover-handle">@ai_everyday69</div>
+          <div class="cover-divider"></div>
+          <div class="cover-subtitle">昨天 AI 圈發生了什麼事？</div>
+          <div class="cover-previews">
+            <div class="cover-preview-item">
+              <span class="num">01</span>
+              Meta 推出 SAM 3.1 圖像分割模型
+            </div>
+            <div class="cover-preview-item">
+              <span class="num">02</span>
+              OpenAI 聯手 NVIDIA 簽盒10GW算力
+            </div>
+            <div class="cover-preview-item">
+              <span class="num">03</span>
+              台灣 AI EXPO 逾萬人千臧�l�
+            </div>
+          </div>
+        </div>
+        <div class="cover-bottom">
+          <span class="cover-count">4 則精選</span>
+          <span class="cover-swipe">← 仑��斱讀 →</span>
+        </div>
+      </div>
+
+      <!-- ════ 新聞 01：Meta SAM 3.1 ════ -->
+      <div class="slide news-slide" id="slide-1">
+        <div class="news-header">
+          <span class="news-number">NEWS 01 / 04</span>
+          <span class="news-tag tag-green">技術突破</span>
+        </div>
+        <div class="news-title">Meta 推出 SAM 3.1<br>圖像分割模型</div>
+        <div class="news-body">
+          Meta 於 3 月 27 日釋出 SAM 3.1 Object Multiplex，是目前最強的開源圖像分割模型，同步在 Hugging Face 提供模型權重下載。新版本引入共享記憶體多物件追蹤架構，讓多個物件同時追蹤速度大幅提升，且不犧牲精準度。推論與微調程式碼完全開源，可免費用於商業與研究用途。
+        </div>
+        <div class="news-relation-box">
+          <div class="news-relation-label">跟你有什麼關係</div>
+          <div class="news-relation-text">
+            AI 幫你剪圖、去背、追蹤影片物件以後會更準更快，設計師和電商賣家可以省下大量手動摳圖時間。你現在就能去 GitHub 下載試用，完全免費。
+          </div>
+        </div>
+        <div class="news-footer">
+          <span class="news-source">來源：Meta AI Blog · ai.meta.com</span>
+          <span class="news-page">1 / 4</span>
+        </div>
+      </div>
+
+      <!-- ════ 新聞 02：OpenAI × NVIDIA ════ -->
+      <div class="slide news-slide" id="slide-2">
+        <div class="news-header">
+          <span class="news-number">NEWS 02 / 04</span>
+          <span class="news-tag tag-orange">市場融資</span>
+        </div>
+        <div class="news-title">OpenAI 聯手 NVIDIA<br>簽算力大單</div>
+        <div class="news-body">
+          OpenAI 與 NVIDIA 宣布簽署戰略合作意向書，計劃共同部署至少 10 吉瓦的 NVIDIA 系統，用於打造下一代 AI 基礎設施。NVIDIA 預計投入最高 1,000億美投基礎圈佛攫事儩生。怙叕费 AI 基礎更度合作的最新相譋賦示，动 ◈ AI 算力軍備競賽的搭備競賽工具。
+        </div>
+        <div class="news-relation-box">
+          <div class="news-relation-label">跟你有什麼關係</div>
+          <div class="news-relation-text">
+            算力越大，AI 服務回應越快、功能越強，你每天用的 ChatGPT 也會跟著變更好用。這也代表 AI 時代的人才需求和就業機會還在持續增加。
+          </div>
+        </div>
+        <div class="news-footer">
+          <span class="news-source">來源：NVIDIA Newsroom · nvidianews.nvidia.com</span>
+          <span class="news-page">2 / 4</span>
+        </div>
+      </div>
+
+      <!-- ════ 新聞 03：台灣 AI EXPO ════ -->
+      <div class="slide news-slide" id="slide-3">
+        <div class="news-header">
+          <span class="news-number">NEWS 03 / 04</span>
+          <span class="news-tag tag-gray">活動展覽</span>
+        </div>
+        <div class="news-title">台灣 AI EXPO<br>逾萬人參與閉幕</div>
+        <div class="news-body">
+          AI EXPO Taiwan 2026 於 3 月 27 日在台北花博圓山館圓滿落幕，三天共吸引超過 1 萬名來自產業、政府與學術界的專業人士。NVIDIA、微軟等國際大廠參展，聚焦台灣在全球 AI 硬體供應鏈的核心角色。本屆主題「AI·X」直接對齊台灣「AI 新十大建設」國家計畫。
+        </div>
+        <div class="news-relation-box">
+          <div class="news-relation-label">跟你有什麼關係</div>
+          <div class="news-relation-text">
+            台灣是全球 AI 晶片和硬體的核心供應地，這場展覽証明台灣在 AI 時代的重要競爭優勢。關心科技業就業或台股 AI 概念股的人，值得持續關注相關動態。
+          </div>
+        </div>
+        <div class="news-footer">
+          <span class="news-source">來源：Digitimes · digitimes.com</span>
+          <span class="news-page">3 / 4</span>
+        </div>
+      </div>
+
+      <!-- ════ 新聞 04：ChatGPT 廣告 ════ -->
+      <div class="slide news-slide" id="slide-4">
+        <div class="news-header">
+          <span class="news-number">NEWS 04 / 04</span>
+          <span class="news-tag tag-blue">產品發布</span>
+        </div>
+        <div class="news-title">ChatGPT 廣告試行<br>六週年收破億美元</div>
+        <div class="news-body">
+          OpenAI 在美國推出的 ChatGPT 廣告試行計畫，短短 6 週的年化收入已突破 1 億美元，大幅超出市場預期。這代表廣告正式成為 ChatGPT 商業模式的重要支柱，免費用戶未來將更頻繁看到廣告，OpenAI 尚未公布全球擴張時程。
+        </div>
+        <div class="news-relation-box">
+          <div class="news-relation-label">跟你有什麼關係</div>
+          <div class="news-relation-text">
+            以後免費用 ChatGPT 可能會開始看到廣告，不想被打擾就要考慮付費訂閱。這也顯示 AI 工具「永遠免費」的時代正在悄悄改袰。
+          </div>
+        </div>
+        <div class="news-footer">
+          <span class="news-source">來源：The Neuron · theneuron.ai</span>
+          <span class="news-page">4 / 4</span>
+        </div>
+      </div>
+
+      <!-- ════ 總結頁 ════ -->
+      <div class="slide summary-slide" id="slide-5">
+        <div class="summary-top">
+          <div class="summary-label">Yesterday's Recap</div>
+          <div class="summary-main-title">昨日三大重點</div>
+        </div>
+        <div class="summary-points">
+          <div class="summary-point">
+            <div class="summary-point-num">01</div>
+            <div class="summary-point-content">
+              <div class="summary-point-title">Meta 開源 SAM 3.1，圖像 AI 再升級</div>
+              <div class="summary-point-desc">最強開源分割模型免費可用，設計與電商工具將全面受益</div>
+            </div>
+          </div>
+          <div class="summary-point">
+            <div class="summary-point-num">02</div>
+            <div class="summary-point-content">
+              <div class="summary-point-title">OpenAI × NVIDIA 算力合作達百億規模</div>
+              <div class="summary-point-desc">10GW 基礎建設合作，AI 算力軍備競賽進入新階段</div>
+            </div>
+          </div>
+          <div class="summary-point">
+            <div class="summary-point-num">03</div>
+            <div class="summary-point-content">
+              <div class="summary-point-title">ChatGPT 廣告六週破億，免費時代變局</div>
+              <div class="summary-point-desc">AI 工具商業模式轉變，免費用戶即將迎來廣告時代</div>
+            </div>
+          </div>
+        </div>
+        <div class="summary-cta">
+          <div class="cta-text">追蹤我，每天一分鐘掌握 AI 大事</div>
+          <div class="cta-handle">@ai_everyday69 · 每日更新</div>
+        </div>
+      </div>
+
+    </div><!-- /slides-track -->
+  </div><!-- /carousel -->
+  <button class="nav-btn nav-next" onclick="nextSlide()">&#8250;</button>
+</div><!-- /carousel-wrapper -->
+
+<!-- 點點 -->
+<div class="dots" id="dots"></div>
+
+<!-- 圖庫 -->
+<div class="gallery" id="gallery">
+  <div class="gallery-hint">📱 長按圖片可儲存到手機相簿</div>
+</div>
+
+<script>
+  const TOTAL = 6; // cover + 4 news + summary
+  let current = 0;
+  const track = document.getElementById('track');
+  const dotsEl = document.getElementById('dots');
+
+  // 建立點點
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    current = Math.max(0, Math.min(n, TOTAL - 1));
+    track.style.transform = `translateX(-${current * 540}px)`;
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+  function prevSlide() { goTo(current - 1); }
+  function nextSlide() { goTo(current + 1); }
+
+  // 鍵盤
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft')  prevSlide();
+  });
+
+  // 觸控滑動
+  let touchStartX = 0;
+  document.querySelector('.carousel').addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  });
+  document.querySelector('.carousel').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx < -40) nextSlide();
+    if (dx > 40)  prevSlide();
+  });
+
+  // ── 下載目前這張 ──
+  async function downloadCurrent() {
+    const slide = document.getElementById('slide-' + current);
+    const canvas = await html2canvas(slide, { scale: 2, useCORS: true, backgroundColor: '#fff' });
+    const link = document.createElement('a');
+    link.download = `ai-daily-2026-03-30-slide${current + 1}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // ── 下載全部 ──
+  async function downloadAll() {
+    for (let i = 0; i < TOTAL; i++) {
+      const slide = document.getElementById('slide-' + i);
+      const canvas = await html2canvas(slide, { scale: 2, useCORS: true, backgroundColor: '#fff' });
+      const link = document.createElement('a');
+      link.download = `ai-daily-2026-03-30-slide${i + 1}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      await new Promise(r => setTimeout(r, 400));
+    }
+  }
+
+  // ── 顯示圖庫 ──
+  async function toggleGallery() {
+    const gallery = document.getElementById('gallery');
+    if (gallery.style.display === 'flex') {
+      gallery.style.display = 'none';
+      return;
+    }
+    gallery.style.display = 'flex';
+    gallery.innerHTML = '<div class="gallery-hint">⏳ 正在渲染所有圖片，請稍候...</div>';
+    const imgs = [];
+    for (let i = 0; i < TOTAL; i++) {
+      const slide = document.getElementById('slide-' + i);
+      const canvas = await html2canvas(slide, { scale: 2, useCORS: true, backgroundColor: '#fff' });
+      imgs.push(canvas.toDataURL('image/png'));
+    }
+    gallery.innerHTML = '<div class="gallery-hint">📱 長按圖片可儲存到手機相簿</div>';
+    imgs.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Slide ${i + 1}`;
+      gallery.appendChild(img);
+    });
+  }
+</script>
+</body>
+</html>
