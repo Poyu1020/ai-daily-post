@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-03-31 | @ai_everyday69</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    font-family: 'Noto Sans TC', sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* ── Download Bar ── */
+  #download-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0f0f23;
+    padding: 12px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #333;
+  }
+  #download-bar span {
+    color: #aaa;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    margin-right: 6px;
+  }
+  .dl-btn {
+    background: #3B82F6;
+    color: white;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .dl-btn:hover { background: #2563EB; }
+  .dl-btn.all { background: #8B5CF6; }
+  .dl-btn.all:hover { background: #7C3AED; }
+
+  /* ── Gallery ── */
+  #gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    padding: 24px 0;
+  }
+
+  /* ── Slide Wrapper ── */
+  .slide-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .slide-label {
+    color: #888;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── The Slide (1080×1350 rendered at 540×675 via CSS scale) ── */
+  .slide {
+    width: 540px;
+    height: 675px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    /* Scale: actual 1080×1350, displayed 540×675 */
+    transform-origin: top left;
+  }
+  /* Inner canvas scaled 2× */
+  .slide-inner {
+    width: 1080px;
+    height: 1350px;
+    transform: scale(0.5);
+    transform-origin: top left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  /* ── Watermark ── */
+  .watermark {
+    position: absolute;
+    bottom: 32px;
+    right: 36px;
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.12);
+    letter-spacing: 0.02em;
+    z-index: 50;
+  }
+
+  /* ═══════════════════════════════
+     COVER SLIDE
+  ═══════════════════════════════ */
+  .cover .slide-inner {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top decorative strip */
+  .cover-top-strip {
+    background: #111;
+    height: 8px;
+    width: 100%;
+  }
+  .cover-header {
+    padding: 48px 72px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #111;
+  }
+  .cover-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #111;
+    padding: 8px 20px;
+    border-radius: 2px;
+  }
+  .cover-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #555;
+    letter-spacing: 0.04em;
+  }
+
+  .cover-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 72px;
+    gap: 24px;
+  }
+  .cover-title-jp {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 108px;
+    font-weight: 900;
+    color: #111;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .cover-handle {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 0.08em;
+  }
+  .cover-tagline {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #444;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  /* Preview headlines */
+  .cover-previews {
+    width: 100%;
+    border-top: 2px solid #e5e5e5;
+    padding-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cover-preview-item {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: #222;
+    line-height: 1.4;
+    padding-left: 4px;
+    border-left: 4px solid #111;
+    padding-left: 16px;
+  }
+
+  .cover-footer {
+    background: #111;
+    padding: 28px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cover-count {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+  .cover-swipe {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #aaa;
+    letter-spacing: 0.12em;
+  }
+
+  /* ═══════════════════════════════
+     NEWS SLIDES
+  ═══════════════════════════════ */
+  .news-slide .slide-inner {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  .news-top-strip {
+    height: 8px;
+    background: #111;
+  }
+
+  .news-header {
+    padding: 44px 72px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #e8e8e8;
+  }
+  .news-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 80px;
+    font-weight: 900;
+    color: #f0f0f0;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .news-tag {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.06em;
+  }
+
+  .news-content {
+    flex: 1;
+    padding: 44px 72px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .news-headline {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 72px;
+    font-weight: 900;
+    color: #111;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .news-body {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: #444;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+    flex: 1;
+  }
+
+  .news-relevance-box {
+    background: #f8f8f8;
+    border-left: 6px solid #111;
+    padding: 28px 36px;
+    border-radius: 0 6px 6px 0;
+    margin-top: auto;
+  }
+  .news-relevance-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .news-relevance-text {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #222;
+    line-height: 1.65;
+  }
+
+  .news-footer {
+    padding: 24px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e8e8e8;
+  }
+  .news-source {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    color: #999;
+    font-weight: 400;
+  }
+  .news-page {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    color: #bbb;
+    font-weight: 600;
+  }
+
+  /* ═══════════════════════════════
+     SUMMARY SLIDE
+  ═══════════════════════════════ */
+  .summary-slide .slide-inner {
+    display: flex;
+    flex-direction: column;
+    background: #111;
+  }
+  .summary-top-strip {
+    height: 8px;
+    background: #F97316;
+  }
+  .summary-header {
+    padding: 56px 72px 40px;
+    border-bottom: 1px solid #333;
+  }
+  .summary-kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: #F97316;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .summary-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .summary-points {
+    flex: 1;
+    padding: 44px 72px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .summary-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .summary-point-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    color: #F97316;
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 40px;
+  }
+  .summary-point-text {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: #ddd;
+    line-height: 1.6;
+  }
+
+  .summary-cta {
+    padding: 40px 72px;
+    border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .summary-cta-main {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+  }
+  .summary-cta-main span {
+    color: #F97316;
+  }
+  .summary-handle-big {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #F97316;
+    letter-spacing: 0.06em;
+  }
+  .summary-sub {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 22px;
+    color: #666;
+  }
+  .summary-watermark {
+    position: absolute;
+    bottom: 32px;
+    right: 36px;
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.1);
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     DOWNLOAD BAR
+══════════════════════════════════════ -->
+<div id="download-bar">
+  <span>📥 下載輪播圖：</span>
+  <button class="dl-btn" onclick="downloadSlide(0)">封面</button>
+  <button class="dl-btn" onclick="downloadSlide(1)">新聞 1</button>
+  <button class="dl-btn" onclick="downloadSlide(2)">新聞 2</button>
+  <button class="dl-btn" onclick="downloadSlide(3)">新聞 3</button>
+  <button class="dl-btn" onclick="downloadSlide(4)">新聞 4</button>
+  <button class="dl-btn" onclick="downloadSlide(5)">新聞 5</button>
+  <button class="dl-btn" onclick="downloadSlide(6)">總結</button>
+  <button class="dl-btn all" onclick="downloadAll()">⬇ 全部下載</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     GALLERY
+══════════════════════════════════════ -->
+<div id="gallery">
+
+  <!-- ── SLIDE 0: COVER ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">封面</div>
+    <div class="slide cover" id="slide-0" title="長按儲存">
+      <div class="slide-inner">
+        <div class="cover-top-strip"></div>
+        <div class="cover-header">
+          <div class="cover-badge">DAILY BRIEFING</div>
+          <div class="cover-date">2026 · 03 · 30</div>
+        </div>
+        <div class="cover-center">
+          <div class="cover-title-jp">AI 日報</div>
+          <div class="cover-handle">@ai_everyday69</div>
+          <div class="cover-tagline">昨天 AI 圈發生了什麼事？</div>
+          <div class="cover-previews">
+            <div class="cover-preview-item">Google 蠘憶壓縮 6 倍，晶片股重挫</div>
+            <div class="cover-preview-item">Anthropic 最強模型太危險，不發布</div>
+            <div class="cover-preview-item">OpenAI 年收 250 億，衝刺 IPO</div>
+          </div>
+        </div>
+        <div class="cover-footer">
+          <div class="cover-count">5 則精選</div>
+          <div class="cover-swipe">← 滑動閱讀 →</div>
+        </div>
+        <div class="watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 1: Google TurboQuant ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">新聞 1 / 5</div>
+    <div class="slide news-slide" id="slide-1">
+      <div class="slide-inner">
+        <div class="news-top-strip"></div>
+        <div class="news-header">
+          <div class="news-num">01</div>
+          <div class="news-tag" style="background:#22C55E;">技術突破</div>
+        </div>
+        <div class="news-content">
+          <div class="news-headline">Google 壓縮<br>AI 記憶體 6 倍</div>
+          <div class="news-body">
+            Google 發布 TurboQuant 演算法，將 AI 模型的 KV 快取從 16 位元壓縮至 3 位元，記憶體需求降低 6 倍、推理速度提升 8 倍、消息一出，SK Hynix 當日跌 6%、三星跌近 5%。TurboQuant 預計 2026 年 Q2 開源，並將在 ICLR 大會正式發表。
+          </div>
+          <div class="news-relevance-box">
+            <div class="news-relevance-label">跟你有什麼關係</div>
+            <div class="news-relevance-text">
+              AI 跑得更快更便宜，代表你以後用的 AI 功能會越來越多、越來越順。如果你有投資記憶體相關股票，這個技術可能壓低需求預期，要特別留意。
+            </div>
+          </div>
+        </div>
+        <div class="news-footer">
+          <div class="news-source">來源：VentureBeat · CNBC</div>
+          <div class="news-page">1 / 7</div>
+        </div>
+        <div class="watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2: Anthropic Claude Mythos ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">新聞 2 / 5</div>
+    <div class="slide news-slide" id="slide-2">
+      <div class="slide-inner">
+        <div class="news-top-strip"></div>
+        <div class="news-header">
+          <div class="news-num">02</div>
+          <div class="news-tag" style="background:#22C55E;">技術突破</div>
+        </div>
+        <div class="news-content">
+          <div class="news-headline">Anthropic 最強<br>新模型暫不發布</div>
+          <div class="news-body">
+            Anthropic 已訓練完成最新模型 Claude Mythos，年化收入同步衝上 190 億美元（是一年前的 14 倍）。但公司安全團隊評估認為，此模型的網路攻擊能力超出安全紅線，決定暫不公開。目前僅限少數企業夥伴內測使用。
+          </div>
+          <div class="news-relevance-box">
+            <div class="news-relevance-label">跟你有什麼關係</div>
+            <div class="news-relevance-text">
+              AI 強到連開發公司都不敢放出來，這不是科幻情節，是 2026 年正在發生的事。你可以開始關注 AI 安全這個議題，因為它會決定你以後能用哪些工具。
+            </div>
+          </div>
+        </div>
+        <div class="news-footer">
+          <div class="news-source">來源：Fortune · Axios · SiliconANGLE</div>
+          <div class="news-page">2 / 7</div>
+        </div>
+        <div class="watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3: OpenAI IPO ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">新聞 3 / 5</div>
+    <div class="slide news-slide" id="slide-3">
+      <div class="slide-inner">
+        <div class="news-top-strip"></div>
+        <div class="news-header">
+          <div class="news-num">03</div>
+          <div class="news-tag" style="background:#F97316;">市場融資</div>
+        </div>
+        <div class="news-content">
+          <div class="news-headline">OpenAI 年收<br>250 億衝刺上市</div>
+          <div class="news-body">
+            OpenAI 年化收入突破 250 億美元，今年 2 月完成 1,100 億美元融資、估值達 8,400 億美元。CFO Sarah Friar 正積極削減虧損業務，目標 2026 年底將企業與消費者收入比調整為五五開，為 IPO 鋪路。Anthropic 年化收入 190 億，成長速度是 OpenAI 的 3 倍，差距持續縮小。
+          </div>
+          <div class="news-relevance-box">
+            <div class="news-relevance-label">跟你有什麼關係</div>
+            <div class="news-relevance-text">
+              OpenAI 上市代表它要對股東負責，ChatGPT 可能更快推出付費功能、縮減免費額度。趁免費功能還在，現在就把它用熟是最聰明的選擇。
+            </div>
+          </div>
+        </div>
+        <div class="news-footer">
+          <div class="news-source">來源：Enoumen Substack · Bloomberg</div>
+          <div class="news-page">3 / 7</div>
+        </div>
+        <div class="watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: Taiwan AI Education ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">新聞 4 / 5</div>
+    <div class="slide news-slide" id="slide-4">
+      <div class="slide-inner">
+        <div class="news-top-strip"></div>
+        <div class="news-header">
+          <div class="news-num">04</div>
+          <div class="news-tag" style="background:#3B82F6;">產品發布</div>
+        </div>
+        <div class="news-content">
+          <div class="news-headline">台灣啟用<br>AI 教育數據平台</div>
+          <div class="news-body">
+            台灣宏碁旗下神基科技在 2026 智慧城市展發布 AI 教育數據平台，整合全台學校資訊，供政策決策者即時查詢分析。台灣 AI 基本法已於 2026 年 1 月正式生效，成為亞洲最早建立 AI 治理框架的地區之一。主權 AI 產業聯盟（AISO）亦於 3 月 23 日成立。
+          </div>
+          <div class="news-relevance-box">
+            <div class="news-relevance-label">跟你有什麼關係</div>
+            <div class="news-relevance-text">
+              台灣教育政策開始用 AI 數據來決策，以後學校資源怎麼分、考試制度怎麼調，都可能被這些數據影響。現在了解 AI 怎麼進入教育系統，你就不會被蒙在鼓裡。
+            </div>
+          </div>
+        </div>
+        <div class="news-footer">
+          <div class="news-source">來源：Korea Times · Digitimes</div>
+          <div class="news-page">4 / 7</div>
+        </div>
+        <div class="watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5: Meta AI Compute ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">新聞 5 / 5</div>
+    <div class="slide news-slide" id="slide-5">
+      <div class="slide-inner">
+        <div class="news-top-strip"></div>
+        <div class="news-header">
+          <div class="news-num">05</div>
+          <div class="news-tag" style="background:#F97316;">市場融資</div>
+        </div>
+        <div class="news-content">
+          <div class="news-headline">Meta 砸<br>270 億搶算力</div>
+          <div class="news-body">
+            Meta 與 Nebius Group 簽署 120 億美元 GPU 算力合約，附加 5 年期 150 億美元選擇權，NVIDIA 同步投入 20 億美元入股 Nebius。Meta 今年 AI 總支出預計高達 1,350 億美元，將建置橫跨美國 30 個數據中心。這是 2026 年科技業最大的單一 AI 算力採購案之一。
+          </div>
+          <div class="news-relevance-box">
+            <div class="news-relevance-label">跟你有什麼關係</div>
+            <div class="news-relevance-text">
+              Meta 砸這麼多錢買算力，代表 Instagram、Facebook、WhatsApp 的 AI 功能很快會大幅升級。你現在用到的 Meta AI 只是開始，更強的版本正在路上。
+            </div>
+          </div>
+        </div>
+        <div class="news-footer">
+          <div class="news-source">來源：NAI500 · CNBC</div>
+          <div class="news-page">5 / 7</div>
+        </div>
+        <div class="watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6: SUMMARY ── -->
+  <div class="slide-wrapper">
+    <div class="slide-label">總結頁</div>
+    <div class="slide summary-slide" id="slide-6">
+      <div class="slide-inner">
+        <div class="summary-top-strip"></div>
+        <div class="summary-header">
+          <div class="summary-kicker">YESTERDAY'S BIG PICTURE</div>
+          <div class="summary-title">昨日<br>三大重點</div>
+        </div>
+        <div class="summary-points">
+          <div class="summary-point">
+            <div class="summary-point-num">01</div>
+            <div class="summary-point-text">Google TurboQuant 改寫 AI 記憶體需求，晶片股當日重挫，AI 成本戰正式開打。</div>
+          </div>
+          <div class="summary-point">
+            <div class="summary-point-num">02</div>
+            <div class="summary-point-text">AI 安全警報升級：Anthropic 扣住最強模型 Claude Mythos，因網路攻擊風險過高不敢發布。</div>
+          </div>
+          <div class="summary-point">
+            <div class="summary-point-num">03</div>
+            <div class="summary-point-text">AI 商業版圖重塑：OpenAI、Meta 同步砸重金，IPO 浪潮與算力軍備競賽同步展開。</div>
+          </div>
+        </div>
+        <div class="summary-cta">
+          <div class="summary-cta-main">追蹤我，每天一分鐘<br>掌握 <span>AI 大事</span></div>
+          <div class="summary-handle-big">@ai_everyday69</div>
+          <div class="summary-sub">每日更新 · 不漏接</div>
+        </div>
+        <div class="summary-watermark">@ai_everyday69</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#gallery -->
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+const SLIDES = document.querySelectorAll('.slide');
+const TOTAL = SLIDES.length;
+
+// Long-press to save on mobile
+SLIDES.forEach((slide, i) => {
+  let pressTimer;
+  slide.addEventListener('touchstart', () => {
+    pressTimer = setTimeout(() => captureSlide(i), 700);
+  });
+  slide.addEventListener('touchend', () => clearTimeout(pressTimer));
+});
+
+function captureSlide(index, cb) {
+  const slide = document.getElementById('slide-' + index);
+  const inner = slide.querySelector('.slide-inner');
+
+  html2canvas(inner, {
+    scale: 1,
+    width: 1080,
+    height: 1350,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: null,
+    logging: false
+  }).then(canvas => {
+    if (cb) { cb(canvas); return; }
+    const link = document.createElement('a');
+    link.download = 'ai-daily-2026-03-30-' + String(index).padStart(2,'0') + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+function downloadSlide(index) {
+  captureSlide(index);
+}
+
+async function downloadAll() {
+  for (let i = 0; i < TOTAL; i++) {
+    await new Promise(resolve => {
+      captureSlide(i, canvas => {
+        const link = document.createElement('a');
+        link.download = 'ai-daily-2026-03-30-' + String(i).padStart(2,'0') + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        setTimeout(resolve, 600);
+      });
+    });
+  }
+}
+</script>
+</body>
+</html>
