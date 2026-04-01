@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-03-31 | @ai_everyday69</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:#e8e8e8;
+  font-family:'Noto Sans TC',sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  padding:24px 20px 40px;min-height:100vh;
+}
+.page-title{
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;
+  color:#888;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.control-bar{
+  display:flex;gap:10px;margin-bottom:18px;
+  align-items:center;flex-wrap:wrap;justify-content:center;
+}
+.btn{
+  padding:9px 20px;border:none;border-radius:6px;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:0.5px;
+  transition:opacity 0.2s;
+}
+.btn:hover{opacity:0.85;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-nav{background:#fff;color:#333;border:1px solid #ccc;}
+.btn-dl{background:#2d6a4f;color:#fff;}
+.btn-all{background:#1a1a2e;color:#fff;}
+.slide-ind{
+  font-family:'Inter',sans-serif;font-size:13px;color:#555;
+  padding:9px 14px;background:#fff;border-radius:6px;
+  border:1px solid #ddd;min-width:70px;text-align:center;
+}
+
+/* ---- Carousel ---- */
+.carousel-wrap{
+  width:540px;height:675px;overflow:hidden;position:relative;
+  box-shadow:0 10px 40px rgba(0,0,0,0.22);border-radius:4px;
+}
+.carousel-track{
+  display:flex;
+  transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);
+  height:100%;will-change:transform;
+}
+
+/* Each slide displayed at 540×675 */
+.slide{
+  min-width:540px;width:540px;height:675px;
+  position:relative;background:#fff;flex-shrink:0;overflow:hidden;
+}
+/* Inner canvas: 1080×1350, scaled ×0.5 */
+.slide-inner{
+  width:1080px;height:1350px;
+  transform:scale(0.5);transform-origin:top left;
+  position:absolute;top:0;left:0;
+}
+
+/* Watermark */
+.wm{
+  position:absolute;bottom:40px;right:46px;
+  font-family:'Inter',sans-serif;font-size:24px;font-weight:600;
+  color:rgba(0,0,0,0.13);letter-spacing:0.5px;z-index:99;
+  pointer-events:none;
+}
+.wm-light{color:rgba(255,255,255,0.18);}
+
+/* ===== COVER ===== */
+.cover{display:flex;flex-direction:column;background:#fff;}
+.cover-top{
+  background:#1a1a2e;color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:56px 68px 44px;flex-shrink:0;
+}
+.db-badge{
+  background:#c9a84c;color:#1a1a2e;
+  font-family:'Inter',sans-serif;font-weight:900;font-size:25px;
+  letter-spacing:3.5px;text-transform:uppercase;
+  padding:12px 26px;border-radius:3px;
+}
+.cover-date{
+  font-family:'Inter',sans-serif;font-size:28px;font-weight:300;
+  color:rgba(255,255,255,0.7);letter-spacing:1px;
+}
+.cover-center{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:72px 68px 52px;
+}
+.cover-main{
+  font-family:'Noto Serif TC',serif;font-size:112px;font-weight:900;
+  color:#1a1a2e;letter-spacing:10px;line-height:1;margin-bottom:22px;
+}
+.cover-handle{
+  font-family:'Inter',sans-serif;font-size:30px;font-weight:500;
+  color:#c9a84c;letter-spacing:2px;margin-bottom:52px;
+}
+.cover-sub{
+  font-family:'Noto Serif TC',serif;font-size:36px;font-weight:600;
+  color:#555;margin-bottom:52px;text-align:center;
+}
+.cover-hr{width:100%;height:1px;background:#e0e0e0;margin-bottom:52px;}
+.cover-previews{width:100%;}
+.c-prev{display:flex;align-items:flex-start;gap:22px;margin-bottom:30px;}
+.c-prev-n{
+  font-family:'Inter',sans-serif;font-size:28px;font-weight:800;
+  color:#c9a84c;min-width:40px;line-height:1.45;
+}
+.c-prev-t{
+  font-family:'Noto Sans TC',sans-serif;font-size:30px;font-weight:500;
+  color:#2a2a2a;line-height:1.45;
+}
+.cover-bottom{
+  background:#1a1a2e;color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:38px 68px;flex-shrink:0;
+}
+.cover-count{
+  font-family:'Inter',sans-serif;font-size:30px;font-weight:800;color:#c9a84c;
+}
+.swipe-hint{
+  font-family:'Noto Sans TC',sans-serif;font-size:28px;
+  color:rgba(255,255,255,0.6);letter-spacing:2px;
+}
+
+/* ===== NEWS SLIDE ===== */
+.news-slide{display:flex;flex-direction:column;background:#fff;}
+.news-header{
+  background:#1a1a2e;padding:44px 68px 36px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.n-num{
+  font-family:'Inter',sans-serif;font-size:56px;font-weight:900;
+  color:#c9a84c;line-height:1;
+}
+.n-tag{
+  display:inline-block;padding:10px 28px;border-radius:22px;
+  font-family:'Noto Sans TC',sans-serif;font-size:26px;font-weight:700;
+  letter-spacing:1px;
+}
+.t-blue{background:#2196F3;color:#fff;}
+.t-green{background:#388E3C;color:#fff;}
+.t-orange{background:#E65100;color:#fff;}
+.t-red{background:#C62828;color:#fff;}
+.t-purple{background:#6A1B9A;color:#fff;}
+.t-gray{background:#757575;color:#fff;}
+
+.news-body{
+  flex:1;padding:56px 68px 44px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.n-title{
+  font-family:'Noto Serif TC',serif;font-size:66px;font-weight:900;
+  color:#1a1a2e;line-height:1.28;margin-bottom:36px;
+}
+.n-bar{width:64px;height:5px;background:#c9a84c;margin-bottom:36px;flex-shrink:0;}
+.n-summary{
+  font-family:'Noto Sans TC',sans-serif;font-size:31px;font-weight:400;
+  color:#2a2a2a;line-height:1.82;margin-bottom:36px;flex-shrink:0;
+}
+.rel-box{
+  background:#faf8f2;border-left:7px solid #c9a84c;
+  padding:34px 38px;margin-bottom:30px;flex-shrink:0;
+}
+.rel-label{
+  font-family:'Inter',sans-serif;font-size:20px;font-weight:800;
+  color:#c9a84c;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.rel-text{
+  font-family:'Noto Sans TC',sans-serif;font-size:29px;font-weight:400;
+  color:#333;line-height:1.75;
+}
+.n-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid #ebebeb;padding-top:24px;flex-shrink:0;
+}
+.n-source{font-family:'Inter',sans-serif;font-size:21px;color:#aaa;letter-spacing:0.3px;}
+.n-page{font-family:'Inter',sans-serif;font-size:21px;color:#aaa;}
+
+/* ===== SUMMARY SLIDE ===== */
+.summary-slide{
+  background:#1a1a2e;display:flex;flex-direction:column;
+  padding:72px 68px 60px;justify-content:space-between;
+}
+.sum-head{text-align:center;margin-bottom:60px;}
+.sum-badge{
+  display:inline-block;background:#c9a84c;color:#1a1a2e;
+  font-family:'Inter',sans-serif;font-size:21px;font-weight:900;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:10px 30px;border-radius:3px;margin-bottom:26px;
+}
+.sum-title{
+  font-family:'Noto Serif TC',serif;font-size:54px;font-weight:900;
+  color:#fff;line-height:1.3;
+}
+.sum-points{flex:1;}
+.sum-pt{display:flex;gap:28px;margin-bottom:46px;align-items:flex-start;}
+.pt-num{
+  font-family:'Inter',sans-serif;font-size:52px;font-weight:900;
+  color:#c9a84c;line-height:1.1;min-width:54px;
+}
+.pt-body{}
+.pt-title{
+  font-family:'Noto Serif TC',serif;font-size:34px;font-weight:700;
+  color:#fff;line-height:1.42;margin-bottom:10px;
+}
+.pt-desc{
+  font-family:'Noto Sans TC',sans-serif;font-size:26px;font-weight:300;
+  color:rgba(255,255,255,0.6);line-height:1.62;
+}
+.sum-cta{
+  text-align:center;padding:48px 0 16px;
+  border-top:1px solid rgba(255,255,255,0.15);
+}
+.cta-main{
+  font-family:'Noto Serif TC',serif;font-size:34px;font-weight:700;
+  color:#fff;line-height:1.55;margin-bottom:18px;
+}
+.cta-sub{
+  font-family:'Inter',sans-serif;font-size:26px;font-weight:500;
+  color:#c9a84c;letter-spacing:1px;
+}
+
+/* ===== GALLERY ===== */
+.gallery-wrap{
+  margin-top:18px;width:540px;
+}
+.gallery-label{
+  font-family:'Inter',sans-serif;font-size:11px;color:#999;
+  text-align:center;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;
+}
+.gallery-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
+}
+.g-thumb{
+  aspect-ratio:4/5;background:#ddd;border-radius:3px;overflow:hidden;
+  cursor:pointer;border:2px solid transparent;transition:border-color 0.2s;
+  position:relative;
+}
+.g-thumb.active{border-color:#1a1a2e;}
+.g-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.g-thumb-n{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Inter',sans-serif;font-size:9px;color:#888;
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">AI 日報 · 2026.03.31 · @ai_everyday69</div>
+
+<div class="control-bar">
+  <button class="btn btn-nav" onclick="prevSlide()">◀ 上一張</button>
+  <span class="slide-ind" id="slideInd">1 / 7</span>
+  <button class="btn btn-nav" onclick="nextSlide()">下一張 ▶</button>
+  <button class="btn btn-dl" id="btnDl" onclick="downloadCurrent()">⬇ 下載此張</button>
+  <button class="btn btn-all" id="btnAll" onclick="downloadAll()">⬇ 下載全部</button>
+</div>
+
+<div class="carousel-wrap" id="cWrap">
+  <div class="carousel-track" id="cTrack">
+
+    <!-- ★ SLIDE 1: COVER -->
+    <div class="slide" id="s0">
+      <div class="slide-inner cover">
+        <div class="cover-top">
+          <div class="db-badge">Daily Briefing</div>
+          <div class="cover-date">2026 · 03 · 31</div>
+        </div>
+        <div class="cover-center">
+          <div class="cover-main">AI 日報</div>
+          <div class="cover-handle">@ai_everyday69</div>
+          <div class="cover-sub">昨天 AI 圈發生了什麼事？</div>
+          <div class="cover-hr"></div>
+          <div class="cover-previews">
+            <div class="c-prev">
+              <div class="c-prev-n">01</div>
+              <div class="c-prev-t">OpenAI 停用 Sora 影片工具</div>
+            </div>
+            <div class="c-prev">
+              <div class="c-prev-n">02</div>
+              <div class="c-prev-t">Google 翻譯即時對話登 iOS</div>
+            </div>
+            <div class="c-prev">
+              <div class="c-prev-n">03</div>
+              <div class="c-prev-t">Anthropic 籌備 600 億美元 IPO</div>
+            </div>
+          </div>
+        </div>
+        <div class="cover-bottom">
+          <div class="cover-count">5 則精選</div>
+          <div class="swipe-hint">← 滑動閱讀 →</div>
+        </div>
+        <div class="wm">@ai_everyday69</div>
+      </div>
+    </div>
+
+    <!-- ★ SLIDE 2: NEWS 1 — OpenAI Sora -->
+    <div class="slide" id="s1">
+      <div class="slide-inner news-slide">
+        <div class="news-header">
+          <div class="n-num">01</div>
+          <div class="n-tag t-blue">產品發布</div>
+        </div>
+        <div class="news-body">
+          <div>
+            <div class="n-title">OpenAI 停用<br>Sora 影片工具</div>
+            <div class="n-bar"></div>
+            <div class="n-summary">
+              OpenAI 正式關閉 Sora 影片生成平台，上線僅 6 個月即宣告終止。用戶數從高峰 100 萬暴跌至不足 50 萬，每日燒錢高達 100 萬美元。Disney 原本簽下 10 億美元合作，卻在公告前 1 小時才得知消息，合約就此泡湯。
+            </div>
+          </div>
+          <div>
+            <div class="rel-box">
+              <div class="rel-label">跟你有什麼關係</div>
+              <div class="rel-text">就算大公司出的 AI 工具，沒人用照樣會被砍，別太依賴任何一個平台。有在用 Sora 的話趕快備份你的作品，服務已經關了！</div>
+            </div>
+            <div class="n-footer">
+              <div class="n-source">Source: TechCrunch · CNN Business</div>
+              <div class="n-page">2 / 7</div>
+            </div>
+          </div>
+        </div>
+        <div class="wm">@ai_everyday69</div>
+      </div>
+    </div>
+
+    <!-- ★ SLIDE 3: NEWS 2 — Google Translate iOS -->
+    <div class="slide" id="s2">
+      <div class="slide-inner news-slide">
+        <div class="news-header">
+          <div class="n-num">02</div>
+          <div class="n-tag t-green">技術突破</div>
+        </div>
+        <div class="news-body">
+          <div>
+            <div class="n-title">Google 翻譯<br>即時對話登 iOS</div>
+            <div class="n-bar"></div>
+            <div class="n-summary">
+              Google 於 3 月 31 日將 Gemini AI 即時語音翻譯推送至 iOS，iPhone 用戶現在戴任何耳機就能即時聽到翻譯。功能支援超過 70 種語言，已開放含日本、英國、法國在內的 12 個國家使用。
+            </div>
+          </div>
+          <div>
+            <div class="rel-box">
+              <div class="rel-label">跟你有什麼關係</div>
+              <div class="rel-text">出國旅遊或跟外國人說話再也不怕聽不懂，戴普通耳機就能即時翻譯。打開 Google 翻譯 App，點「即時翻譯」接上耳機就可以用了！</div>
+            </div>
+            <div class="n-footer">
+              <div class="n-source">Source: TechCrunch · Google Blog</div>
+              <div class="n-page">3 / 7</div>
+            </div>
+          </div>
+        </div>
+        <div class="wm">@ai_everyday69</div>
+      </div>
+    </div>
+
+    <!-- ★ SLIDE 4: NEWS 3 — Anthropic IPO -->
+    <div class="slide" id="s3">
+      <div class="slide-inner news-slide">
+        <div class="news-header">
+          <div class="n-num">03</div>
+          <div class="n-tag t-orange">市場融資</div>
+        </div>
+        <div class="news-body">
+          <div>
+            <div class="n-title">Anthropic 籌備<br>600 億美元 IPO</div>
+            <div class="n-bar"></div>
+            <div class="n-summary">
+              Claude 母公司 Anthropic 年化收入突破 190 億美元，是半年前的 2 倍。公司正考慮最快 2026 年第四季以 600 億美元估值掛牌上市，今年 2 月甫完成 300 億美元融資，整體估值達 3,800 億美元。
+            </div>
+          </div>
+          <div>
+            <div class="rel-box">
+              <div class="rel-label">跟你有什麼關係</div>
+              <div class="rel-text">你現在用的 Claude 背後公司快上市了，代表他們會更積極改善產品來衝業績。可以期待 Claude 接下來推出更多新功能！</div>
+            </div>
+            <div class="n-footer">
+              <div class="n-source">Source: Winbuzzer · CNBC</div>
+              <div class="n-page">4 / 7</div>
+            </div>
+          </div>
+        </div>
+        <div class="wm">@ai_everyday69</div>
+      </div>
+    </div>
+
+    <!-- ★ SLIDE 5: NEWS 4 — Meta data center -->
+    <div class="slide" id="s4">
+      <div class="slide-inner news-slide">
+        <div class="news-header">
+          <div class="n-num">04</div>
+          <div class="n-tag t-orange">市場融資</div>
+        </div>
+        <div class="news-body">
+          <div>
+            <div class="n-title">Meta 擴建 AI<br>中心投入百億</div>
+            <div class="n-bar"></div>
+            <div class="n-summary">
+              Meta 宣布將德州 AI 資料中心投資規模擴增 6 倍，達到 100 億美元，預計 2028 年完工、總發電量達 1GW。Meta 整體 2026 年資本支出預估高達 1,150 至 1,350 億美元，大部分資金流向 NVIDIA GPU 採購。
+            </div>
+          </div>
+          <div>
+            <div class="rel-box">
+              <div class="rel-label">跟你有什麼關係</div>
+              <div class="rel-text">Meta 砸這麼多錢做 AI，你用的 Instagram 和 Facebook 裡的 AI 推薦會越來越精準。不管喜不喜歡，演算法以後更懂你。</div>
+            </div>
+            <div class="n-footer">
+              <div class="n-source">Source: CNBC</div>
+              <div class="n-page">5 / 7</div>
+            </div>
+          </div>
+        </div>
+        <div class="wm">@ai_everyday69</div>
+      </div>
+    </div>
+
+    <!-- ★ SLIDE 6: NEWS 5 — Mistral -->
+    <div class="slide" id="s5">
+      <div class="slide-inner news-slide">
+        <div class="news-header">
+          <div class="n-num">05</div>
+          <div class="n-tag t-orange">市場融資</div>
+        </div>
+        <div class="news-body">
+          <div>
+            <div class="n-title">Mistral 融資<br>8.3 億創歐洲紀錄</div>
+            <div class="n-bar"></div>
+            <div class="n-summary">
+              法國 AI 新創 Mistral AI 向 7 家銀行籌得 8.3 億美元債務融資，創下歐洲 AI 公司有史以來最大融資紀錄。資金將用於購買 1.38 萬張 NVIDIA GB300 GPU，並在巴黎興建一座 44MW 的資料中心。
+            </div>
+          </div>
+          <div>
+            <div class="rel-box">
+              <div class="rel-label">跟你有什麼關係</div>
+              <div class="rel-text">歐洲也在拚命追上美國 AI 大廠，多一個強勁競爭者代表市場更多元。以後我們可能有更多非美系的 AI 工具可以選！</div>
+            </div>
+            <div class="n-footer">
+              <div class="n-source">Source: Tech-Insider</div>
+              <div class="n-page">6 / 7</div>
+            </div>
+          </div>
+        </div>
+        <div class="wm">@ai_everyday69</div>
+      </div>
+    </div>
+
+    <!-- ★ SLIDE 7: SUMMARY -->
+    <div class="slide" id="s6">
+      <div class="slide-inner summary-slide">
+        <div class="sum-head">
+          <div class="sum-badge">Today's Takeaway</div>
+          <div class="sum-title">昨日三大重點</div>
+        </div>
+        <div class="sum-points">
+          <div class="sum-pt">
+            <div class="pt-num">1</div>
+            <div class="pt-body">
+              <div class="pt-title">OpenAI 砍掉 Sora，每日燒百萬美元止血</div>
+              <div class="pt-desc">AI 影片工具沒人用也是燒錢，大公司也要算 CP 值</div>
+            </div>
+          </div>
+          <div class="sum-pt">
+            <div class="pt-num">2</div>
+            <div class="pt-body">
+              <div class="pt-title">Google 翻譯即時功能正式登陸 iPhone</div>
+              <div class="pt-desc">70+ 語言即時翻譯、支援任何耳機，語言障礙快消失了</div>
+            </div>
+          </div>
+          <div class="sum-pt">
+            <div class="pt-num">3</div>
+            <div class="pt-body">
+              <div class="pt-title">Anthropic 年收 190 億、估值 3800 億籌備上市</div>
+              <div class="pt-desc">AI 安全公司也要衝 IPO，Claude 即將成為上市公司產品</div>
+            </div>
+          </div>
+        </div>
+        <div class="sum-cta">
+          <div class="cta-main">追蹤我，每天一分鐘<br>掌握 AI 大事</div>
+          <div class="cta-sub">@ai_everyday69 · 每日更新</div>
+        </div>
+        <div class="wm wm-light">@ai_everyday69</div>
+      </div>
+    </div>
+
+  </div><!-- /carousel-track -->
+</div><!-- /carousel-wrap -->
+
+<!-- Gallery -->
+<div class="gallery-wrap">
+  <div class="gallery-label">點擊縮圖切換 · 長按儲存</div>
+  <div class="gallery-grid" id="gGrid"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const TOTAL = 7;
+let cur = 0;
+const track = document.getElementById('cTrack');
+const indEl  = document.getElementById('slideInd');
+
+function goTo(n){
+  cur = Math.max(0, Math.min(n, TOTAL-1));
+  track.style.transform = `translateX(-${cur*540}px)`;
+  indEl.textContent = `${cur+1} / ${TOTAL}`;
+  document.querySelectorAll('.g-thumb').forEach((el,i)=>{
+    el.classList.toggle('active', i===cur);
+  });
+}
+function prevSlide(){ goTo(cur-1); }
+function nextSlide(){ goTo(cur+1); }
+
+// Keyboard
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowLeft') prevSlide();
+  if(e.key==='ArrowRight') nextSlide();
+});
+
+// Swipe
+let tX=0;
+const wrap = document.getElementById('cWrap');
+wrap.addEventListener('touchstart', e=>{ tX=e.touches[0].clientX; },{passive:true});
+wrap.addEventListener('touchend', e=>{
+  const d = tX - e.changedTouches[0].clientX;
+  if(Math.abs(d)>30){ d>0 ? nextSlide() : prevSlide(); }
+});
+
+async function renderSlide(idx){
+  const inner = document.getElementById(`s${idx}`).querySelector('.slide-inner');
+  return await html2canvas(inner,{
+    width:1080, height:1350, scale:1,
+    useCORS:true, allowTaint:true, logging:false,
+    backgroundColor:'#ffffff'
+  });
+}
+
+async function downloadCurrent(){
+  const btn=document.getElementById('btnDl');
+  btn.textContent='處理中...'; btn.disabled=true;
+  try{
+    const c = await renderSlide(cur);
+    const a = document.createElement('a');
+    a.download=`ai-daily-2026-03-31-${String(cur+1).padStart(2,'0')}.png`;
+    a.href=c.toDataURL('image/png'); a.click();
+  }catch(e){ alert('下載失敗：'+e.message); }
+  btn.textContent='⬇ 下載此張'; btn.disabled=false;
+}
+
+async function downloadAll(){
+  const btn=document.getElementById('btnAll');
+  btn.disabled=true;
+  for(let i=0;i<TOTAL;i++){
+    btn.textContent=`下載中 ${i+1}/${TOTAL}...`;
+    goTo(i);
+    await new Promise(r=>setTimeout(r,350));
+    const c=await renderSlide(i);
+    const a=document.createElement('a');
+    a.download=`ai-daily-2026-03-31-${String(i+1).padStart(2,'0')}.png`;
+    a.href=c.toDataURL('image/png'); a.click();
+    await new Promise(r=>setTimeout(r,250));
+  }
+  btn.textContent='⬇ 下載全部'; btn.disabled=false;
+}
+
+// Build gallery
+async function buildGallery(){
+  const grid=document.getElementById('gGrid');
+  for(let i=0;i<TOTAL;i++){
+    const th=document.createElement('div');
+    th.className='g-thumb'+(i===0?' active':'');
+    th.innerHTML<`<div class="g-thumb-n">${i+1}</div>`;
+    th.onclick=()=>goTo(i);
+    grid.appendChild(th);
+    (async(idx,el)=>{
+      try{
+        const c=await renderSlide(idx);
+        const img=document.createElement('img');
+        img.src=c.toDataURL('image/jpeg',0.65);
+        el.innerHTML=''; el.appendChild(img);
+      }catch(e){ el.style.background='#bbb'; }
+    })(i,th);
+  }
+}
+
+goTo(0);
+// Wait for fonts before generating thumbnails
+document.fonts.ready.then(()=>setTimeout(buildGallery,800));
+</script>
+</body>
+</html>
