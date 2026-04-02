@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-04-01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a2e;
+    font-family: 'Noto Sans TC', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0 40px;
+    gap: 24px;
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: #0f0f1a;
+    width: 100%;
+    padding: 12px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #333;
+  }
+  .toolbar button {
+    background: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all .2s;
+  }
+  .toolbar button:hover { background: #c1121f; }
+  .toolbar button.dl-all { background: #2d6a4f; }
+  .toolbar button.dl-all:hover { background: #1b4332; }
+  .toolbar span { color: #aaa; font-size: 13px; }
+
+  /* ── SLIDE WRAPPER ── */
+  .slide-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .slide-label {
+    color: #888;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .05em;
+  }
+
+  /* ── SLIDE FRAME ── */
+  .slide {
+    width: 540px;
+    height: 675px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 40px rgba(0,0,0,.45);
+  }
+
+  /* ── WATERMARK ── */
+  .watermark {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(0,0,0,.18);
+    letter-spacing: .04em;
+    z-index: 10;
+  }
+
+  /* ════════════════════════════
+     COVER SLIDE
+  ════════════════════════════ */
+  .slide-cover {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .cover-top {
+    background: #111;
+    padding: 16px 24px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cover-top .badge {
+    background: #e63946;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    padding: 4px 10px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .cover-top .date-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: .04em;
+  }
+
+  /* decorative rule */
+  .cover-rule {
+    height: 3px;
+    background: linear-gradient(90deg, #e63946 0%, #f4a261 50%, #e63946 100%);
+  }
+
+  .cover-center {
+    flex: 1;
+    padding: 0 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 2px solid #111;
+  }
+  .cover-main-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1;
+    color: #111;
+    letter-spacing: -.01em;
+  }
+  .cover-main-title span {
+    color: #e63946;
+  }
+  .cover-handle {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #777;
+    letter-spacing: .08em;
+  }
+  .cover-sub {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    line-height: 1.5;
+  }
+  .cover-previews {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .cover-preview-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #444;
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 1.4;
+  }
+  .cover-preview-item .bullet {
+    color: #e63946;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .cover-bottom {
+    background: #111;
+    padding: 13px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cover-count {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: .05em;
+  }
+  .cover-count span {
+    color: #e63946;
+    font-size: 20px;
+    font-weight: 900;
+  }
+  .cover-swipe {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 12px;
+    color: #aaa;
+    letter-spacing: .04em;
+  }
+
+  /* ════════════════════════════
+     NEWS SLIDES
+  ════════════════════════════ */
+  .slide-news {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .news-header {
+    background: #111;
+    padding: 12px 22px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .news-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    letter-spacing: .1em;
+  }
+  .news-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    padding: 3px 10px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .tag-orange { background: #f4a261; color: #111; }
+  .tag-blue   { background: #4895ef; color: #fff; }
+  .tag-red    { background: #e63946; color: #fff; }
+  .tag-green  { background: #52b788; color: #fff; }
+  .tag-purple { background: #9b72cf; color: #fff; }
+  .tag-gray   { background: #999; color: #fff; }
+
+  .news-body {
+    flex: 1;
+    padding: 20px 26px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .news-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #111;
+    line-height: 1.3;
+    border-bottom: 3px solid #111;
+    padding-bottom: 12px;
+    letter-spacing: -.01em;
+  }
+  .news-summary {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13.5px;
+    color: #333;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+  .news-summary strong {
+    font-weight: 700;
+    color: #111;
+  }
+
+  .news-relevance-box {
+    background: #fff9f0;
+    border-left: 4px solid #f4a261;
+    padding: 12px 14px;
+    border-radius: 0 6px 6px 0;
+  }
+  .relevance-label {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #f4a261;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .relevance-text {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+  }
+
+  .news-footer {
+    background: #f7f7f7;
+    border-top: 1px solid #e5e5e5;
+    padding: 9px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .news-source {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #999;
+    letter-spacing: .04em;
+  }
+  .news-page {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #bbb;
+    letter-spacing: .04em;
+  }
+
+  /* ════════════════════════════
+     SUMMARY SLIDE
+  ════════════════════════════ */
+  .slide-summary {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+  }
+  .summary-top {
+    padding: 22px 28px 16px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .summary-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #e63946;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .summary-headline {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .summary-points {
+    flex: 1;
+    padding: 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .summary-point {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .point-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: #e63946;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+  }
+  .point-text {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13.5px;
+    color: #ccc;
+    line-height: 1.65;
+    padding-top: 4px;
+  }
+
+  .summary-cta {
+    background: #e63946;
+    padding: 18px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cta-main {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.45;
+  }
+  .cta-handle {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,.75);
+    letter-spacing: .06em;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <button class="dl-all" onclick="downloadAll()">⬇ 全部下載</button>
+  <button onclick="downloadSlide(0)">封面</button>
+  <button onclick="downloadSlide(1)">新聞 1</button>
+  <button onclick="downloadSlide(2)">新聞 2</button>
+  <button onclick="downloadSlide(3)">新聞 3</button>
+  <button onclick="downloadSlide(4)">新聞 4</button>
+  <button onclick="downloadSlide(5)">總結</button>
+  <span>長按圖片可儲存 · 1080×1350 輸出</span>
+</div>
+
+<!-- ════════════ SLIDE 0: COVER ════════════ -->
+<div class="slide-wrapper">
+  <div class="slide-label">封面 · 1 / 6</div>
+  <div class="slide slide-cover" id="slide-0">
+    <div class="cover-top">
+      <span class="badge">Daily Briefing</span>
+      <span class="date-text">2026年4月1日（週三）</span>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="cover-center">
+      <div>
+        <div class="cover-main-title">AI <span>日報</span></div>
+        <div class="cover-handle">@ai_everyday69 · 每日更新</div>
+      </div>
+      <div class="cover-sub">昨天 AI 圈發生了什麼事？</div>
+      <div class="cover-previews">
+        <div class="cover-preview-item">
+          <span class="bullet">▶</span>
+          <span>OpenAI 完成 1220 億美元史上最大 AI 融資</span>
+        </div>
+        <div class="cover-preview-item">
+          <span class="bullet">▶</span>
+          <span>Google 推出 Veo 3.1 Lite，影片 AI 成本砍半</span>
+        </div>
+        <div class="cover-preview-item">
+          <span class="bullet">▶</span>
+          <span>Oracle 一封 Email 裁員 3 萬人，錢轉投 AI</span>
+        </div>
+      </div>
+    </div>
+    <div class="cover-bottom">
+      <div class="cover-count"><span>4</span> 則精選</div>
+      <div class="cover-swipe">← 滑動閱讀 →</div>
+    </div>
+    <div class="watermark">@ai_everyday69</div>
+  </div>
+</div>
+
+<!-- ════════════ SLIDE 1: NEWS 1 ════════════ -->
+<div class="slide-wrapper">
+  <div class="slide-label">新聞 1 · 2 / 6</div>
+  <div class="slide slide-news" id="slide-1">
+    <div class="news-header">
+      <span class="news-num">NEWS 01</span>
+      <span class="news-tag tag-orange">市場融資</span>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="news-body">
+      <div class="news-title">OpenAI 完成史上最大融資</div>
+      <div class="news-summary">
+        OpenAI 完成 <strong>1,220 億美元</strong>融資，估值衝上 <strong>8,520 億美元</strong>。亞馬遜投入 500 億、軟銀與 Nvidia 各出 300 億，是科技史上最大私人融資案。每月營收已達 <strong>20 億美元</strong>，全球每週有 <strong>9 億用戶</strong>使用 ChatGPT。首次開放散戶參與，零售端募得 30 億美元。
+      </div>
+      <div class="news-relevance-box">
+        <div class="relevance-label">⚡ 跟你有什麼關係</div>
+        <div class="relevance-text">
+          OpenAI 現在燒錢燒得更兇，ChatGPT 付費功能可能越來越多甚至漲價。現在可以評估一下免費版夠不夠用，先別急著訂閱。
+        </div>
+      </div>
+    </div>
+    <div class="news-footer">
+      <span class="news-source">Source: Bloomberg · CoinDesk · TechCrunch</span>
+      <span class="news-page">P. 2 / 6</span>
+    </div>
+    <div class="watermark">@ai_everyday69</div>
+  </div>
+</div>
+
+<!-- ════════════ SLIDE 2: NEWS 2 ════════════ -->
+<div class="slide-wrapper">
+  <div class="slide-label">新聞 2 · 3 / 6</div>
+  <div class="slide slide-news" id="slide-2">
+    <div class="news-header">
+      <span class="news-num">NEWS 02</span>
+      <span class="news-tag tag-blue">產品發布</span>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="news-body">
+      <div class="news-title">Google 影片 AI 成本砍半</div>
+      <div class="news-summary">
+        Google 推出 <strong>Veo 3.1 Lite</strong> 影片生成模型，定價每秒僅 <strong>0.05 美元</strong>，不到前版 Fast 版的一半。支援文字或圖片轉影片，解析度最高 <strong>1080p</strong>，生成速度與 Fast 版相同。發布時機恰逢 OpenAI 宣布關閉 Sora，Google 直接接收流失用戶。
+      </div>
+      <div class="news-relevance-box">
+        <div class="relevance-label">⚡ 跟你有什麼關係</div>
+        <div class="relevance-text">
+          做 AI 影片的成本直接少一半，現在是測試影片工具的好時機。可以去 Google AI Studio 申請 Veo 3.1 Lite 存取權，先做小專案玩看看。
+        </div>
+      </div>
+    </div>
+    <div class="news-footer">
+      <span class="news-source">Source: 9to5Google · Business Standard · Google Blog</span>
+      <span class="news-page">P. 3 / 6</span>
+    </div>
+    <div class="watermark">@ai_everyday69</div>
+  </div>
+</div>
+
+<!-- ════════════ SLIDE 3: NEWS 3 ════════════ -->
+<div class="slide-wrapper">
+  <div class="slide-label">新聞 3 · 4 / 6</div>
+  <div class="slide slide-news" id="slide-3">
+    <div class="news-header">
+      <span class="news-num">NEWS 03</span>
+      <span class="news-tag tag-red">裁員潮</span>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="news-body">
+      <div class="news-title">Oracle 裁員 3 萬轉型 AI</div>
+      <div class="news-summary">
+        Oracle 透過一封凌晨 6 點的電郵宣布裁撤 <strong>2–3 萬名員工</strong>，為 2026 年最大科技裁員案。省下的約 <strong>100 億美元</strong>將全部轉投 AI 資料中心擴建。2026 年第一季科技業裁員已逾 <strong>4.5 萬人</strong>，AI 被列為明確原因的佔兩成。
+      </div>
+      <div class="news-relevance-box">
+        <div class="relevance-label">⚡ 跟你有什麼關係</div>
+        <div class="relevance-text">
+          科技大廠正在把人的薪水換成 AI 算力費用，傳統 IT 職缺壓力只會越來越大。現在開始學 AI 工具的實際使用，比等到被裁再慌張要好得多。
+        </div>
+      </div>
+    </div>
+    <div class="news-footer">
+      <span class="news-source">Source: HBR · Tech Insider · TrueUp Tracker</span>
+      <span class="news-page">P. 4 / 6</span>
+    </div>
+    <div class="watermark">@ai_everyday69</div>
+  </div>
+</div>
+
+<!-- ════════════ SLIDE 4: NEWS 4 ════════════ -->
+<div class="slide-wrapper">
+  <div class="slide-label">新聞 4 · 5 / 6</div>
+  <div class="slide slide-news" id="slide-4">
+    <div class="news-header">
+      <span class="news-num">NEWS 04</span>
+      <span class="news-tag tag-blue">產品發布</span>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="news-body">
+      <div class="news-title">OpenAI 放棄影片 AI Sora</div>
+      <div class="news-summary">
+        OpenAI 宣布 Sora 影片 App 將於 <strong>4 月 26 日</strong>停服，API 延至 9 月下線。每日燒掉約 <strong>100 萬美元</strong>，活躍用戶已從 100 萬暴跌至不足 <strong>50 萬</strong>。迪士尼原本承諾 10 億美元合作，卻在公告發出前一小時才獲通知。
+      </div>
+      <div class="news-relevance-box">
+        <div class="relevance-label">⚡ 跟你有什麼關係</div>
+        <div class="relevance-text">
+          如果你有在用 Sora，要在 4 月 26 日前把作品下載存好，之後就進不去了。這也提醒我們別太依賴單一 AI 工具，多備份、多備選方案才安全。
+        </div>
+      </div>
+    </div>
+    <div class="news-footer">
+      <span class="news-source">Source: NBC News · The Decoder · Variety · 80.lv</span>
+      <span class="news-page">P. 5 / 6</span>
+    </div>
+    <div class="watermark">@ai_everyday69</div>
+  </div>
+</div>
+
+<!-- ════════════ SLIDE 5: SUMMARY ════════════ -->
+<div class="slide-wrapper">
+  <div class="slide-label">總結 · 6 / 6</div>
+  <div class="slide slide-summary" id="slide-5">
+    <div class="summary-top">
+      <div class="summary-eyebrow">Yesterday Recap · 2026.04.01</div>
+      <div class="summary-headline">昨日三大重點</div>
+    </div>
+    <div class="summary-points">
+      <div class="summary-point">
+        <div class="point-num">1</div>
+        <div class="point-text">OpenAI 以 8,520 億估值完成 1,220 億美元巨額融資，AI 資金熱度不退，月收入達 20 億美元。</div>
+      </div>
+      <div class="summary-point">
+        <div class="point-num">2</div>
+        <div class="point-text">Google Veo 3.1 Lite 把影片 AI 成本砍半，同一天 OpenAI 宣布放棄 Sora，影片 AI 版圖重組。</div>
+      </div>
+      <div class="summary-point">
+        <div class="point-num">3</div>
+        <div class="point-text">Oracle 裁員 3 萬人，2026 年 Q1 全球科技裁員破 4.5 萬，AI 正加速取代傳統職位。</div>
+      </div>
+    </div>
+    <div class="summary-cta">
+      <div class="cta-main">追蹤我，每天一分鐘掌握 AI 大事</div>
+      <div class="cta-handle">@ai_everyday69 · 每日更新</div>
+    </div>
+    <div class="watermark" style="color:rgba(255,255,255,.25)">@ai_everyday69</div>
+  </div>
+</div>
+
+<script>
+// ── 儲存單張 ──
+async function downloadSlide(idx) {
+  const slide = document.getElementById('slide-' + idx);
+  if (!slide) return;
+  const labels = ['cover','news-1','news-2','news-3','news-4','summary'];
+  const canvas = await html2canvas(slide, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: null,
+    width: 540,
+    height: 675,
+    windowWidth: 540,
+    windowHeight: 675
+  });
+  const link = document.createElement('a');
+  link.download = 'ai-daily-2026-04-01-' + labels[idx] + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ── 全部下載 ──
+async function downloadAll() {
+  for (let i = 0; i < 6; i++) {
+    await downloadSlide(i);
+    await new Promise(r => setTimeout(r, 600));
+  }
+}
+
+// ── 長按儲存（手機） ──
+document.querySelectorAll('.slide').forEach(slide => {
+  let timer;
+  slide.addEventListener('touchstart', () => {
+    timer = setTimeout(async () => {
+      const idx = parseInt(slide.id.split('-')[1]);
+      await downloadSlide(idx);
+    }, 600);
+  });
+  slide.addEventListener('touchend', () => clearTimeout(timer));
+  slide.addEventListener('touchmove', () => clearTimeout(timer));
+});
+</script>
+</body>
+</html>
