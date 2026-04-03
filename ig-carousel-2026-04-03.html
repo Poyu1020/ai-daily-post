@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 — 2026-04-03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0ede6; font-family: 'Noto Sans TC', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px 0 40px; }
+
+  /* ── download bar ── */
+  .download-bar { width: 540px; margin-bottom: 18px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .download-bar button {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    padding: 7px 16px; border: 1.5px solid #222; border-radius: 6px;
+    background: #fff; color: #222; cursor: pointer; transition: .15s;
+  }
+  .download-bar button:hover { background: #222; color: #fff; }
+  .dl-all { background: #222 !important; color: #fff !important; }
+  .dl-all:hover { background: #444 !important; }
+
+  /* ── slide frame ── */
+  .slide {
+    width: 540px; height: 675px; background: #fff; position: relative;
+    overflow: hidden; margin-bottom: 16px; border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  }
+
+  /* ── watermark ── */
+  .watermark {
+    position: absolute; bottom: 12px; right: 16px;
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+    color: rgba(0,0,0,.10); letter-spacing: .3px; z-index: 10;
+  }
+
+  /* ══════════ COVER ══════════ */
+  .cover { display: flex; flex-direction: column; justify-content: space-between; padding: 0; }
+  .cover-top {
+    padding: 36px 40px 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .badge {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase; color: #fff;
+    background: #111; padding: 6px 14px; border-radius: 4px;
+  }
+  .cover-date {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    color: #999; letter-spacing: .5px;
+  }
+  .cover-center { padding: 0 40px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cover-title {
+    font-family: 'Noto Serif TC', serif; font-size: 52px; font-weight: 900;
+    color: #111; line-height: 1.15; letter-spacing: -1px;
+  }
+  .cover-handle {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    color: #bbb; margin-top: 4px; letter-spacing: .3px;
+  }
+  .cover-question {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 18px; font-weight: 400;
+    color: #666; margin-top: 20px; line-height: 1.5;
+  }
+  .cover-previews {
+    margin-top: 22px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .cover-previews .preview-line {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 400;
+    color: #888; line-height: 1.5; padding-left: 14px; position: relative;
+  }
+  .cover-previews .preview-line::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 6px; height: 6px; border-radius: 50%; background: #ccc;
+  }
+  .cover-bottom {
+    padding: 0 40px 32px; display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .cover-count {
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
+    color: #111;
+  }
+  .cover-count span { font-size: 36px; line-height: 1; }
+  .cover-swipe {
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    color: #bbb; letter-spacing: 1.5px;
+  }
+  .cover .divider-line {
+    width: calc(100% - 80px); height: 1.5px; background: #111; margin: 0 40px;
+  }
+
+  /* ══════════ NEWS PAGE ══════════ */
+  .news-page { display: flex; flex-direction: column; padding: 36px 40px 28px; }
+  .news-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .news-number {
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 800;
+    color: #111; letter-spacing: 1px;
+  }
+  .news-tag {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 700;
+    padding: 4px 14px; border-radius: 4px; color: #fff; letter-spacing: .5px;
+  }
+  .tag-green { background: #22a355; }
+  .tag-orange { background: #e8852e; }
+  .tag-blue { background: #3b82f6; }
+  .tag-red { background: #dc2626; }
+  .tag-purple { background: #8b5cf6; }
+  .tag-gray { background: #6b7280; }
+
+  .news-title {
+    font-family: 'Noto Serif TC', serif; font-size: 34px; font-weight: 900;
+    color: #111; line-height: 1.25; margin-bottom: 20px; letter-spacing: -0.5px;
+  }
+  .news-divider { width: 100%; height: 1.5px; background: #eee; margin-bottom: 18px; }
+  .news-body {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 16px; font-weight: 400;
+    color: #333; line-height: 1.85; flex: 1;
+  }
+  .news-relate-box {
+    background: #f7f6f3; border-radius: 8px; padding: 16px 18px; margin-top: 16px;
+  }
+  .news-relate-label {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 700;
+    color: #111; margin-bottom: 6px; letter-spacing: .5px;
+  }
+  .news-relate-text {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 14.5px; font-weight: 400;
+    color: #555; line-height: 1.75;
+  }
+  .news-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 14px; }
+  .news-source {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+    color: #bbb; letter-spacing: .3px;
+  }
+  .news-page-num {
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+    color: #ccc;
+  }
+
+  /* ══════════ SUMMARY PAGE ══════════ */
+  .summary-page { display: flex; flex-direction: column; padding: 36px 40px 28px; }
+  .summary-label {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase; color: #fff;
+    background: #111; padding: 6px 14px; border-radius: 4px;
+    display: inline-block; align-self: flex-start; margin-bottom: 24px;
+  }
+  .summary-heading {
+    font-family: 'Noto Serif TC', serif; font-size: 30px; font-weight: 900;
+    color: #111; line-height: 1.3; margin-bottom: 28px;
+  }
+  .summary-points { flex: 1; display: flex; flex-direction: column; gap: 18px; }
+  .summary-point {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .summary-point-num {
+    font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 800;
+    color: #ddd; line-height: 1; min-width: 32px;
+  }
+  .summary-point-text {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 16px; font-weight: 400;
+    color: #444; line-height: 1.7;
+  }
+  .summary-cta-box {
+    margin-top: auto; text-align: center; padding-top: 24px;
+  }
+  .summary-cta-box .divider { width: 100%; height: 1.5px; background: #eee; margin-bottom: 22px; }
+  .summary-cta {
+    font-family: 'Noto Sans TC', sans-serif; font-size: 17px; font-weight: 700;
+    color: #111; line-height: 1.6;
+  }
+  .summary-handle {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    color: #bbb; margin-top: 6px; letter-spacing: .3px;
+  }
+
+  /* ── save gallery ── */
+  .save-gallery {
+    width: 540px; margin-top: 28px; padding: 20px;
+    background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  }
+  .save-gallery h3 {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: #999; margin-bottom: 14px;
+  }
+  .save-gallery-grid { display: flex; flex-direction: column; gap: 8px; }
+  .save-gallery-grid img {
+    width: 100%; border-radius: 4px; border: 1px solid #eee;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SLIDE 0 · COVER ═══════════ -->
+<div class="slide cover" id="slide-0">
+  <div class="cover-top">
+    <div class="badge">Daily Briefing</div>
+    <div class="cover-date">2026 . 04 . 03</div>
+  </div>
+  <div class="cover-center">
+    <div class="cover-title">AI 日報</div>
+    <div class="cover-handle">@ai_everyday69</div>
+    <div class="cover-question">昨天 AI 圈發生了什麼事？</div>
+    <div class="cover-previews">
+      <div class="preview-line">谷歌開源最強小模型 Gemma 4</div>
+      <div class="preview-line">OpenAI 完成史上最大千億融資</div>
+      <div class="preview-line">Claude 原始碼意外外洩揭秘新功能</div>
+    </div>
+  </div>
+  <div class="divider-line"></div>
+  <div class="cover-bottom">
+    <div class="cover-count"><span>4</span> 則精選</div>
+    <div class="cover-swipe">← 滑動閱讀 →</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════════ SLIDE 1 · 谷歌開源最強小模型 ═══════════ -->
+<div class="slide news-page" id="slide-1">
+  <div class="news-top">
+    <div class="news-number">01</div>
+    <div class="news-tag tag-green">技術突破</div>
+  </div>
+  <div class="news-title">谷歌開源最強小模型</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    Google 4 月 2 日發布 Gemma 4 開源模型，最大 31B 版本在 Arena AI 排名全球第三。支援超過 140 種語言，從手機到工作站都能跑。採用 Apache 2.0 授權，開発者可以免費商用。
+  </div>
+  <div class="news-relate-box">
+    <div class="news-relate-label">跟你有什麼關係</div>
+    <div class="news-relate-text">以後手機也能跑高階 AI，不用連網也能用。如果你是開發者，現在就能兌費下載來玩。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Source: Google Developers Blog</div>
+    <div class="news-page-num">1 / 4</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════════ SLIDE 2 · OpenAI 募資破千億 ═══════════ -->
+<div class="slide news-page" id="slide-2">
+  <div class="news-top">
+    <div class="news-number">02</div>
+    <div class="news-tag tag-orange">市場融資</div>
+  </div>
+  <div class="news-title">OpenAI募資破千億</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    OpenAI 以 8,520 億美元估值完成 1,220 億美元融資，亞馬遜出資 500 億、輝達和軟銀各 300 億。月營收突破 20 億美元，週活用戶達 9 億人。這是史上最大規模私募，最快年底 IPO。
+  </div>
+  <div class="news-relate-box">
+    <div class="news-relate-label">跟你有什麼關係</div>
+    <div class="news-relate-text">ChatGPT 會拿到更多錢升級，你用的 AI 工具只會越來越強。不過 AI 泡沫的聲音也越來越大，投資要小心。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Source: CNBC, Bloomberg</div>
+    <div class="news-page-num">2 / 4</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════════ SLIDE 3 · Claude 原始碼意外曝光 ═══════════ -->
+<div class="slide news-page" id="slide-3">
+  <div class="news-top">
+    <div class="news-number">03</div>
+    <div class="news-tag tag-blue">產品發布</div>
+  </div>
+  <div class="news-title">Claude原始碼意外曝光</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    Anthropic 的 Claude Code 因打包失誤，59.8 MB 原始碼意外公開。社群從中挖出「Buddy」虛擬寴物系統和 KAIROS 常駐背景代理等未發布功能。官方聬明沒有客戶資料外洩。
+  </div>
+  <div class="news-relate-box">
+    <div class="news-relate-label">跟你有什麼關係</div>
+    <div class="news-relate-text">未來 Claude 可能會有 AI 寴物陪你工作，還有背景代理自動幫你整理資料。這些功能還沒上線，可以先期待一下。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Source: VentureBeat, The New Stack</div>
+    <div class="news-page-num">3 / 4</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════════ SLIDE 4 · AI 自己設計晶片了 ═══════════ -->
+<div class="slide news-page" id="slide-4">
+  <div class="news-top">
+    <div class="news-number">04</div>
+    <div class="news-tag tag-green">技術突破</div>
+  </div>
+  <div class="news-title">AI自己設計晶片了</div>
+  <div class="news-divider"></div>
+  <div class="news-body">
+    新創公司 Cognichip 完成 6,000 萬美元融資，尊門用 AI 來設計 AI 晶片。宣稱能砍掉 75% 的開發成本，時程也縭短一半。AI 開始加速自己硬體的進化了。
+  </div>
+  <div class="news-relate-box">
+    <div class="news-relate-label">跟你有什麼關係</div>
+    <div class="news-relate-text">AI 晶片變便宜，你買的手機和電腦 AI 效能會更好。科技產品降價的速度可能會加快。</div>
+  </div>
+  <div class="news-footer">
+    <div class="news-source">Source: Tech Startups</div>
+    <div class="news-page-num">4 / 4</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════════ SLIDE 5 · SUMMARY ═══════════ -->
+<div class="slide summary-page" id="slide-5">
+  <div class="summary-label">Recap</div>
+  <div class="summary-heading">昨日三大重點</div>
+  <div class="summary-points">
+    <div class="summary-point">
+      <div class="summary-point-num">1</div>
+      <div class="summary-point-text">Google 開源 Gemma 4，手機也能跑的世界第三強模型，140+ 語言免費商用</div>
+    </div>
+    <div class="summary-point">
+      <div class="summary-point-num">2</div>
+      <div class="summary-point-text">OpenAI 完成 1,220 億美元史上最大融資，估值逼近一兄美元，年底可能 IPO</div>
+    </div>
+    <div class="summary-point">
+      <div class="summary-point-num">3</div>
+      <div class="summary-point-text">Anthropic 原始碼外洩，AI 寴物「Buddy」和背景代理 KAIROS 搶先曝光</div>
+    </div>
+  </div>
+  <div class="summary-cta-box">
+    <div class="divider"></div>
+    <div class="summary-cta">追蹤我，每天一分鐘掌握 AI 大事</div>
+    <div class="summary-handle">@ai_everyday69 · 每日更新</div>
+  </div>
+  <div class="watermark">@ai_everyday69</div>
+</div>
+
+<!-- ═══════════ DOWNLOAD BAR ═══════════ -->
+<div class="download-bar" id="download-bar">
+  <button class="dl-all" onclick="downloadAll()">⬇ 全部下載</button>
+  <button onclick="downloadSlide(0)">封面</button>
+  <button onclick="downloadSlide(1)">01</button>
+  <button onclick="downloadSlide(2)">02</button>
+  <button onclick="downloadSlide(3)">03</button>
+  <button onclick="downloadSlide(4)">04</button>
+  <button onclick="downloadSlide(5)">��結</button>
+</div>
+
+<!-- ═══════════ SAVE GALLERY (long-press save) ═══════════ -->
+<div class="save-gallery" id="save-gallery">
+  <h3>長按儲存圖片</h3>
+  <div class="save-gallery-grid" id="gallery-grid"></div>
+</div>
+
+<script>
+async function renderSlide(id, scale) {
+  const el = document.getElementById(id);
+  const canvas = await html2canvas(el, {
+    scale: scale || 2,
+    useCORS: true,
+    backgroundColor: '#ffffff',
+    width: 540,
+    height: 675,
+    windowWidth: 540,
+    windowHeight: 675,
+  });
+  return canvas;
+}
+
+async function downloadSlide(i) {
+  const canvas = await renderSlide('slide-' + i, 2);
+  const link = document.createElement('a');
+  const names = ['cover','news-01','news-02','news-03','news-04','summary'];
+  link.download = 'ai-daily-2026-04-03-' + names[i] + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+async function downloadAll() {
+  for (let i = 0; i <= 5; i++) {
+    await downloadSlide(i);
+    await new Promise(r => setTimeout(r, 400));
+  }
+}
+
+// auto-render gallery images
+window.addEventListener('load', async () => {
+  const grid = document.getElementById('gallery-grid');
+  for (let i = 0; i <= 5; i++) {
+    try {
+      const canvas = await renderSlide('slide-' + i, 2);
+      const img = document.createElement('img');
+      img.src = canvas.toDataURL('image/png');
+      const names = ['封面','新聞 01','新聞 02','新聞 03','新聞 04','總結'];
+      img.alt = names[i];
+      grid.appendChild(img);
+    } catch(e) { console.error(e); }
+  }
+});
+</script>
+</body>
+</html>
